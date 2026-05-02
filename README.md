@@ -1,10 +1,10 @@
 # Tengen
 
-A React + TypeScript single-page app for playing weiqi/go locally in the browser.
+A monorepo for Tengen, a weiqi/go application that starts with a React web client and leaves room for an AI-backed server.
 
 ## Run
 
-Use the Node version pinned in `.nvmrc`, then install and run the Vite dev server:
+Use the Node version pinned in `.nvmrc`, then install workspaces and run the web dev server:
 
 ```sh
 nvm use
@@ -35,13 +35,11 @@ Use `npm run format` to apply Prettier formatting.
 
 ## Structure
 
-- `src/game/goEngine.ts`: pure rules, scoring, SGF, and serialization helpers
-- `src/hooks/useGoGame.ts`: React state, persistence, actions, and AI controller bridge
-- `src/components/BoardCanvas.tsx`: canvas board renderer wrapped as a React component
-- `src/components/TengenGame.tsx`: game composition and confirmation flows
-- `src/components/layout/`: header and board layout components
-- `src/components/panels/`: status, players, controls, score, and move record panels
-- `src/App.tsx`: lightweight SPA entry component
+- `apps/web`: React + TypeScript Vite frontend
+- `apps/web/src/game/goEngine.ts`: pure rules, scoring, SGF, and serialization helpers
+- `apps/web/src/hooks/useGoGame.ts`: React state, persistence, actions, and AI controller bridge
+- `apps/web/src/components/`: board, layout, panels, and UI components
+- `apps/server`: placeholder workspace for the future AI-backed game server
 
 ## AI integration hook
 

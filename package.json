@@ -3,35 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "dev": "npm -w @tengen/web run dev --",
+    "build": "npm run build --workspaces --if-present",
+    "build:web": "npm run build -w @tengen/web",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "lint": "npm run lint --workspaces --if-present",
+    "preview": "npm -w @tengen/web run preview --",
+    "typecheck": "npm run typecheck --workspaces --if-present"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "eslint": "^10.3.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.2",
-    "globals": "^17.6.0",
-    "prettier": "^3.8.3",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.59.1",
-    "vite": "^7.1.12"
+    "prettier": "^3.8.3"
   },
   "engines": {
     "node": ">=24.0.0"
-  },
-  "dependencies": {
-    "lucide-react": "^1.14.0",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5"
   }
 }

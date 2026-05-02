@@ -1,0 +1,7 @@
+{
+  "name": "@tengen/server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Placeholder workspace for the future AI-backed game server."
+}
