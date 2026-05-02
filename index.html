@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Project Tengen</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <h1>Project Tengen</h1>
+            <p id="gameSubtitle">19 x 19 board</p>
+          </div>
+        </div>
+
+        <div class="top-actions" aria-label="Game setup">
+          <label class="field compact-field" for="boardSize">
+            <span>Board</span>
+            <select id="boardSize">
+              <option value="19" selected>19 x 19</option>
+              <option value="13">13 x 13</option>
+              <option value="9">9 x 9</option>
+            </select>
+          </label>
+          <button class="primary" id="newGameButton" type="button">New game</button>
+        </div>
+      </header>
+
+      <main class="game-layout">
+        <section class="board-zone" aria-label="Game board">
+          <div class="board-stage">
+            <canvas
+              id="boardCanvas"
+              width="960"
+              height="960"
+              tabindex="0"
+              role="img"
+              aria-label="Interactive weiqi board"
+            ></canvas>
+          </div>
+        </section>
+
+        <aside class="side-panel" aria-label="Game controls and status">
+          <section class="panel status-panel">
+            <div class="status-header">
+              <div>
+                <p class="eyebrow">Current turn</p>
+                <h2 id="turnLabel">Black to play</h2>
+              </div>
+              <span class="turn-stone black" id="turnStone" aria-hidden="true"></span>
+            </div>
+            <p class="status-copy" id="statusText">Place a stone on any open intersection.</p>
+          </section>
+
+          <section class="players" aria-label="Players">
+            <div class="player-row is-active" id="blackPlayerRow">
+              <span class="stone-swatch black" aria-hidden="true"></span>
+              <div>
+                <strong>Black</strong>
+                <span id="blackCaptureText">0 captures</span>
+              </div>
+            </div>
+            <div class="player-row" id="whitePlayerRow">
+              <span class="stone-swatch white" aria-hidden="true"></span>
+              <div>
+                <strong>White</strong>
+                <span id="whiteCaptureText">0 captures</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel controls-panel" aria-label="Game actions">
+            <div class="control-grid">
+              <button id="passButton" type="button">Pass</button>
+              <button id="undoButton" type="button">Undo</button>
+              <button id="scoreButton" type="button">Score</button>
+              <button id="resignButton" type="button">Resign</button>
+            </div>
+            <div class="toggle-row">
+              <label class="toggle">
+                <input id="coordinatesToggle" type="checkbox" checked />
+                <span>Coordinates</span>
+              </label>
+              <label class="toggle">
+                <input id="hoverToggle" type="checkbox" checked />
+                <span>Move preview</span>
+              </label>
+            </div>
+          </section>
+
+          <section class="panel score-panel" aria-label="Score estimate">
+            <div class="section-title">
+              <h2>Score</h2>
+              <span id="phaseBadge">Playing</span>
+            </div>
+            <dl class="score-grid">
+              <div>
+                <dt>Black territory</dt>
+                <dd id="blackTerritory">0</dd>
+              </div>
+              <div>
+                <dt>White territory</dt>
+                <dd id="whiteTerritory">0</dd>
+              </div>
+              <div>
+                <dt>Black total</dt>
+                <dd id="blackTotal">0</dd>
+              </div>
+              <div>
+                <dt>White total</dt>
+                <dd id="whiteTotal">6.5</dd>
+              </div>
+            </dl>
+          </section>
+
+          <section class="panel record-panel" aria-label="Move record">
+            <div class="section-title">
+              <h2>Record</h2>
+              <button class="ghost" id="exportButton" type="button">Export SGF</button>
+            </div>
+            <ol id="moveList" class="move-list"></ol>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="sr-only" id="liveRegion" aria-live="polite"></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
