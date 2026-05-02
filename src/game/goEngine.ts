@@ -388,7 +388,7 @@ export function buildSgf(game: GameSnapshot): string {
     })
     .join("");
 
-  return `(;GM[1]FF[4]CA[UTF-8]AP[ProjectTengen:1]SZ[${game.size}]KM[${KOMI}]${result}${moves})`;
+  return `(;GM[1]FF[4]CA[UTF-8]AP[Tengen:1]SZ[${game.size}]KM[${KOMI}]${result}${moves})`;
 }
 
 export function getLegalMoves(game: GameSnapshot, color = game.current): LegalMove[] {

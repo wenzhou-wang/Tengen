@@ -1,6 +1,6 @@
 import { PointerEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
 
-import { coordName, evaluateMove, isOnBoard } from "../game/goEngine";
+import { evaluateMove, isOnBoard } from "../game/goEngine";
 import {
   BLACK,
   BoardMetrics,
@@ -353,14 +353,7 @@ function drawStone(
   ctx.shadowBlur = radius * 0.35;
   ctx.shadowOffsetY = radius * 0.16;
 
-  const gradient = ctx.createRadialGradient(
-    x - radius * 0.32,
-    y - radius * 0.36,
-    radius * 0.1,
-    x,
-    y,
-    radius,
-  );
+  const gradient = ctx.createRadialGradient(x - radius * 0.32, y - radius * 0.36, radius * 0.1, x, y, radius);
 
   if (color === BLACK) {
     gradient.addColorStop(0, "#5f5d58");

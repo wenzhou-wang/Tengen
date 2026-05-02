@@ -124,7 +124,7 @@ export type PlayerController =
       getMove(state: PublicGameState): ControllerMove | Promise<ControllerMove>;
     };
 
-export interface ProjectTengenApi {
+export interface TengenApi {
   colors: {
     EMPTY: Empty;
     BLACK: typeof BLACK;

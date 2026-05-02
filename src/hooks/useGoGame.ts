@@ -3,8 +3,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   buildSgf,
   colorName,
-  coordName,
   computeScore,
+  coordName,
   createInitialState,
   getDefaultStatus,
   getLegalMoves,
@@ -26,7 +26,7 @@ import {
   PlayerColor,
   PlayerController,
   PlayMoveOptions,
-  ProjectTengenApi,
+  TengenApi,
   WHITE,
 } from "../types";
 
@@ -74,7 +74,7 @@ function loadPersistedState(): { game: GameState; settings: BoardSettings; statu
 }
 
 export function useGoGame() {
-  const initial = useMemo(loadPersistedState, []);
+  const [initial] = useState(() => loadPersistedState());
   const [game, setGame] = useState<GameState>(initial.game);
   const [settings, setSettings] = useState<BoardSettings>(initial.settings);
   const [statusMessage, setStatusMessage] = useState(initial.statusMessage);
@@ -227,11 +227,12 @@ export function useGoGame() {
     controllersRef.current[color] = controller || { type: "human" };
   }, []);
 
-  const api = useMemo<ProjectTengenApi>(
+  const api = useMemo<TengenApi>(
     () => ({
       colors: { EMPTY: 0, BLACK, WHITE },
       getState: () => getPublicState(gameRef.current),
-      getLegalMoves: (color?: PlayerColor) => getLegalMoves(gameRef.current, color ?? gameRef.current.current),
+      getLegalMoves: (color?: PlayerColor) =>
+        getLegalMoves(gameRef.current, color ?? gameRef.current.current),
       playMove: (x: number, y: number) => playMove(x, y, { fromController: true }),
       pass: passTurn,
       undo: undoMove,
@@ -242,16 +243,16 @@ export function useGoGame() {
   );
 
   useEffect(() => {
-    window.ProjectTengen = api;
+    window.Tengen = api;
     return () => {
-      if (window.ProjectTengen === api) {
-        delete window.ProjectTengen;
+      if (window.Tengen === api) {
+        delete window.Tengen;
       }
     };
   }, [api]);
 
   useEffect(() => {
-    const currentGame = gameRef.current;
+    const currentGame = game;
     const controller = controllersRef.current[currentGame.current];
     if (controller.type !== "ai" || currentGame.gameOver || currentGame.phase !== "playing") return;
 
@@ -262,7 +263,8 @@ export function useGoGame() {
       .then((move: ControllerMove) => {
         if (cancelled) return;
         const latest = gameRef.current;
-        if (latest.current !== requestedColor || latest.gameOver || latest.phase !== "playing" || !move) return;
+        if (latest.current !== requestedColor || latest.gameOver || latest.phase !== "playing" || !move)
+          return;
 
         if ("pass" in move && move.pass) {
           passTurn();
@@ -275,7 +277,7 @@ export function useGoGame() {
     return () => {
       cancelled = true;
     };
-  }, [game.current, game.gameOver, game.moveNumber, game.phase, notify, passTurn, playMove]);
+  }, [game, notify, passTurn, playMove]);
 
   return {
     game,

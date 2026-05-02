@@ -1,4 +1,4 @@
-# Project Tengen
+# Tengen
 
 A React + TypeScript single-page app for playing weiqi/go locally in the browser.
 
@@ -18,8 +18,12 @@ The app stores the current game in `localStorage`, so reloading the page restore
 
 ```sh
 npm run typecheck
+npm run lint
+npm run format:check
 npm run build
 ```
+
+Use `npm run format` to apply Prettier formatting.
 
 ## Current features
 
@@ -27,21 +31,24 @@ npm run build
 - Legal move checking, captures, suicide prevention, and positional superko prevention
 - Pass, resign, undo, score estimate, and SGF export
 - Move record, capture counts, final result display, and keyboard board navigation
-- Small controller API for future AI integration through `window.ProjectTengen`
+- Small controller API for future AI integration through `window.Tengen`
 
 ## Structure
 
 - `src/game/goEngine.ts`: pure rules, scoring, SGF, and serialization helpers
 - `src/hooks/useGoGame.ts`: React state, persistence, actions, and AI controller bridge
 - `src/components/BoardCanvas.tsx`: canvas board renderer wrapped as a React component
-- `src/App.tsx`: SPA shell and control panels
+- `src/components/TengenGame.tsx`: game composition and confirmation flows
+- `src/components/layout/`: header and board layout components
+- `src/components/panels/`: status, players, controls, score, and move record panels
+- `src/App.tsx`: lightweight SPA entry component
 
 ## AI integration hook
 
 Future model work can plug into the UI without replacing the board. The browser exposes:
 
 ```js
-window.ProjectTengen.setController(window.ProjectTengen.colors.WHITE, {
+window.Tengen.setController(window.Tengen.colors.WHITE, {
   type: "ai",
   async getMove(state) {
     return { x: 3, y: 3 };
