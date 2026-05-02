@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "dev": "npm -w @tengen/web run dev --",
@@ -14,6 +15,7 @@
     "format:check": "prettier . --check",
     "lint": "npm run lint --workspaces --if-present",
     "preview": "npm -w @tengen/web run preview --",
+    "test": "npm run test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present"
   },
   "devDependencies": {

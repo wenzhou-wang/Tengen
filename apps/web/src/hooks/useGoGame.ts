@@ -14,7 +14,7 @@ import {
   resignOnGame,
   toBoardSize,
   undoOnGame,
-} from "../game/goEngine";
+} from "@tengen/game-core";
 import {
   BLACK,
   BoardSettings,

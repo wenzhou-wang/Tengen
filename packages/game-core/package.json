@@ -1,0 +1,26 @@
+{
+  "name": "@tengen/game-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Pure Go/weiqi rules, scoring, SGF, and game-state types shared by web, server, and AI players.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "test": "node --test --experimental-transform-types --no-warnings test/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

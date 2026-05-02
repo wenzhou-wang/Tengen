@@ -1,4 +1,4 @@
-import { formatScore } from "../../../game/goEngine";
+import { formatScore } from "@tengen/game-core";
 import { TranslationBundle } from "../../../i18n";
 import { GameState, ScoreEstimate } from "../../../types";
 

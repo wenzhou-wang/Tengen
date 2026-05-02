@@ -3,5 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Placeholder workspace for the future AI-backed game server."
+  "description": "Placeholder workspace for the future AI-backed game server.",
+  "scripts": {
+    "smoke": "node --experimental-strip-types --no-warnings src/smoke.ts"
+  },
+  "dependencies": {
+    "@tengen/game-core": "*"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
 }

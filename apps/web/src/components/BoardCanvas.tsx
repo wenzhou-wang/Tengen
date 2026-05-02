@@ -1,6 +1,6 @@
 import { PointerEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
 
-import { evaluateMove, isOnBoard } from "../game/goEngine";
+import { evaluateMove, isOnBoard } from "@tengen/game-core";
 import { TranslationBundle } from "../i18n";
 import {
   BLACK,
