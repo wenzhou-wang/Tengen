@@ -23,6 +23,10 @@ body {
   min-height: 100%;
 }
 
+#root {
+  min-height: 100vh;
+}
+
 body {
   margin: 0;
   background:
@@ -50,6 +54,10 @@ select {
 }
 
 button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   min-height: 42px;
   padding: 0 14px;
   cursor: pointer;
@@ -160,6 +168,12 @@ select {
   background: var(--accent);
   color: #fffdf8;
   font-weight: 700;
+}
+
+.primary svg,
+.ghost svg,
+button svg {
+  flex: 0 0 auto;
 }
 
 .ghost {

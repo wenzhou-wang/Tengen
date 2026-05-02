@@ -39,7 +39,7 @@ declare global {
       };
 
   interface Window {
-    ProjectTengen: {
+    ProjectTengen?: {
       colors: {
         EMPTY: 0;
         BLACK: 1;

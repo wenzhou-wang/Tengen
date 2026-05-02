@@ -1,6 +1,6 @@
 # Project Tengen
 
-A dependency-free web interface for playing weiqi/go locally in the browser.
+A React + TypeScript single-page app for playing weiqi/go locally in the browser.
 
 ## Run
 
@@ -28,6 +28,13 @@ npm run build
 - Pass, resign, undo, score estimate, and SGF export
 - Move record, capture counts, final result display, and keyboard board navigation
 - Small controller API for future AI integration through `window.ProjectTengen`
+
+## Structure
+
+- `src/game/goEngine.ts`: pure rules, scoring, SGF, and serialization helpers
+- `src/hooks/useGoGame.ts`: React state, persistence, actions, and AI controller bridge
+- `src/components/BoardCanvas.tsx`: canvas board renderer wrapped as a React component
+- `src/App.tsx`: SPA shell and control panels
 
 ## AI integration hook
 
