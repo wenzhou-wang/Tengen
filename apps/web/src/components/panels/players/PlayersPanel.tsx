@@ -1,24 +1,27 @@
-import { pluralize } from "../../../game/goEngine";
+import { TranslationBundle } from "../../../i18n";
 import { BLACK, GameState, WHITE } from "../../../types";
 
 interface PlayersPanelProps {
   game: GameState;
+  t: TranslationBundle;
 }
 
-export function PlayersPanel({ game }: PlayersPanelProps) {
+export function PlayersPanel({ game, t }: PlayersPanelProps) {
   return (
-    <section className="players" aria-label="Players">
+    <section className="players" aria-label={t.labels.players}>
       <PlayerRow
         color="black"
-        label="Black"
+        label={t.color(BLACK)}
         captures={game.captures[BLACK]}
         active={!game.gameOver && game.current === BLACK}
+        t={t}
       />
       <PlayerRow
         color="white"
-        label="White"
+        label={t.color(WHITE)}
         captures={game.captures[WHITE]}
         active={!game.gameOver && game.current === WHITE}
+        t={t}
       />
     </section>
   );
@@ -29,18 +32,20 @@ function PlayerRow({
   label,
   captures,
   active,
+  t,
 }: {
   color: "black" | "white";
   label: string;
   captures: number;
   active: boolean;
+  t: TranslationBundle;
 }) {
   return (
     <div className={`player-row ${active ? "is-active" : ""}`}>
       <span className={`stone-swatch ${color}`} aria-hidden="true" />
       <div>
         <strong>{label}</strong>
-        <span>{pluralize(captures, "capture")}</span>
+        <span>{t.captureCount(captures)}</span>
       </div>
     </div>
   );

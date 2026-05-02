@@ -2,11 +2,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import {
   buildSgf,
-  colorName,
   computeScore,
   coordName,
   createInitialState,
-  getDefaultStatus,
   getLegalMoves,
   getPublicState,
   isValidSnapshot,
@@ -29,6 +27,7 @@ import {
   TengenApi,
   WHITE,
 } from "../types";
+import { StatusMessage, TranslationBundle } from "../i18n";
 
 const STORAGE_KEY = "tengen-state-v1";
 
@@ -43,16 +42,20 @@ const defaultSettings: BoardSettings = {
   showPreview: true,
 };
 
-function loadPersistedState(): { game: GameState; settings: BoardSettings; statusMessage: string } {
+function loadPersistedState(): {
+  game: GameState;
+  settings: BoardSettings;
+  statusMessage: StatusMessage | null;
+} {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) {
-      return { game: createInitialState(19), settings: defaultSettings, statusMessage: "" };
+      return { game: createInitialState(19), settings: defaultSettings, statusMessage: null };
     }
 
     const payload = JSON.parse(raw) as PersistedPayload;
     if (!isValidSnapshot(payload.game)) {
-      return { game: createInitialState(19), settings: defaultSettings, statusMessage: "" };
+      return { game: createInitialState(19), settings: defaultSettings, statusMessage: null };
     }
 
     const game = normalizeSnapshot(payload.game);
@@ -66,18 +69,18 @@ function loadPersistedState(): { game: GameState; settings: BoardSettings; statu
         showCoordinates: payload.settings?.showCoordinates !== false,
         showPreview: payload.settings?.showPreview !== false,
       },
-      statusMessage: "Restored saved game.",
+      statusMessage: { kind: "restored" },
     };
   } catch {
-    return { game: createInitialState(19), settings: defaultSettings, statusMessage: "" };
+    return { game: createInitialState(19), settings: defaultSettings, statusMessage: null };
   }
 }
 
-export function useGoGame() {
+export function useGoGame(t: TranslationBundle) {
   const [initial] = useState(() => loadPersistedState());
   const [game, setGame] = useState<GameState>(initial.game);
   const [settings, setSettings] = useState<BoardSettings>(initial.settings);
-  const [statusMessage, setStatusMessage] = useState(initial.statusMessage);
+  const [statusMessage, setStatusMessage] = useState<StatusMessage | null>(initial.statusMessage);
   const [toast, setToast] = useState("");
   const controllersRef = useRef<Record<PlayerColor, PlayerController>>({
     [BLACK]: { type: "human" },
@@ -123,21 +126,21 @@ export function useGoGame() {
       const controller = controllersRef.current[color];
 
       if (controller.type !== "human" && !options.fromController) {
-        notify(`${colorName(color)} is controlled by an external player.`);
+        notify(t.toast.externalPlayer(color));
         return false;
       }
 
       const nextGame = playMoveOnGame(currentGame, x, y);
       if ("error" in nextGame) {
-        if (!options.quiet) notify(nextGame.error);
+        if (!options.quiet) notify(t.legalMoveError(nextGame.error));
         return false;
       }
 
       setGame(nextGame);
-      setStatusMessage(`${colorName(color)} played ${coordName(x, y, currentGame.size)}.`);
+      setStatusMessage({ kind: "played", color, coord: coordName(x, y, currentGame.size) });
       return true;
     },
-    [notify],
+    [notify, t],
   );
 
   const passTurn = useCallback(() => {
@@ -151,9 +154,9 @@ export function useGoGame() {
     if (nextGame.gameOver && nextGame.winner) {
       const nextScore = computeScore(nextGame);
       const margin = Math.abs(nextScore.blackTotal - nextScore.whiteTotal).toFixed(1);
-      setStatusMessage(`Both players passed. ${colorName(nextGame.winner)} leads by ${margin}.`);
+      setStatusMessage({ kind: "bothPassed", winner: nextGame.winner, margin });
     } else {
-      setStatusMessage(`${colorName(color)} passed.`);
+      setStatusMessage({ kind: "passed", color });
     }
   }, []);
 
@@ -164,31 +167,31 @@ export function useGoGame() {
     const color = currentGame.current;
     const nextGame = resignOnGame(currentGame);
     setGame(nextGame);
-    setStatusMessage(`${colorName(color)} resigned. ${colorName(nextGame.winner ?? BLACK)} wins.`);
+    setStatusMessage({ kind: "resigned", color, winner: nextGame.winner ?? BLACK });
   }, []);
 
   const undoMove = useCallback(() => {
     const previous = undoOnGame(gameRef.current);
     if (!previous) {
-      notify("No moves to undo.");
+      notify(t.toast.noMovesToUndo);
       return;
     }
 
     setGame(previous);
-    setStatusMessage("Undid the last action.");
-  }, [notify]);
+    setStatusMessage({ kind: "undid" });
+  }, [notify, t]);
 
   const resetGame = useCallback((size: BoardSize | number) => {
     const boardSize = toBoardSize(Number(size));
     setGame(createInitialState(boardSize));
-    setStatusMessage(`New ${boardSize} x ${boardSize} game.`);
+    setStatusMessage({ kind: "newGame", size: boardSize });
   }, []);
 
   const scoreNow = useCallback(() => {
     const currentScore = computeScore(gameRef.current);
     const winner = currentScore.blackTotal > currentScore.whiteTotal ? BLACK : WHITE;
     const margin = Math.abs(currentScore.blackTotal - currentScore.whiteTotal).toFixed(1);
-    setStatusMessage(`Current estimate: ${colorName(winner)} leads by ${margin}.`);
+    setStatusMessage({ kind: "scoreEstimate", winner, margin });
   }, []);
 
   const updateSettings = useCallback((patch: Partial<BoardSettings>) => {
@@ -210,14 +213,14 @@ export function useGoGame() {
     try {
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(sgf);
-        notify("SGF downloaded and copied to clipboard.");
+        notify(t.toast.sgfDownloadedAndCopied);
       } else {
-        notify("SGF downloaded.");
+        notify(t.toast.sgfDownloaded);
       }
     } catch {
-      notify("SGF downloaded.");
+      notify(t.toast.sgfDownloaded);
     }
-  }, [notify]);
+  }, [notify, t]);
 
   const setController = useCallback((color: PlayerColor, controller?: PlayerController | null) => {
     if (color !== BLACK && color !== WHITE) {
@@ -272,18 +275,23 @@ export function useGoGame() {
           playMove(move.x, move.y, { fromController: true });
         }
       })
-      .catch(() => notify("External player failed to return a move."));
+      .catch(() => notify(t.toast.externalPlayerFailed));
 
     return () => {
       cancelled = true;
     };
-  }, [game, notify, passTurn, playMove]);
+  }, [game, notify, passTurn, playMove, t]);
+
+  const statusText = useMemo(
+    () => (statusMessage ? t.status(statusMessage) : t.defaultStatus(game)),
+    [game, statusMessage, t],
+  );
 
   return {
     game,
     settings,
     score,
-    statusText: statusMessage || getDefaultStatus(game),
+    statusText,
     toast,
     actions: {
       playMove,

@@ -1,41 +1,60 @@
-import { RotateCcw } from "lucide-react";
+import { Languages, RotateCcw } from "lucide-react";
 
+import { TranslationBundle } from "../../i18n";
 import { BoardSize, GameState } from "../../types";
 
 interface AppHeaderProps {
   game: GameState;
+  t: TranslationBundle;
   onBoardSizeChange(size: BoardSize): void;
+  onLanguageToggle(): void;
   onNewGame(): void;
 }
 
-export function AppHeader({ game, onBoardSizeChange, onNewGame }: AppHeaderProps) {
+export function AppHeader({ game, t, onBoardSizeChange, onLanguageToggle, onNewGame }: AppHeaderProps) {
   return (
     <header className="topbar">
       <div className="brand">
         <span className="brand-mark" aria-hidden="true" />
         <div>
           <h1>Tengen</h1>
-          <p>
-            {game.size} x {game.size} board
-          </p>
+          <p>{t.boardDescription(game.size)}</p>
         </div>
       </div>
 
-      <div className="top-actions" aria-label="Game setup">
-        <BoardSizeSelect value={game.size} onChange={onBoardSizeChange} />
+      <div className="top-actions" aria-label={t.labels.gameSetup}>
+        <button
+          className="ghost language-toggle"
+          type="button"
+          aria-label={t.languageToggleAria}
+          title={t.languageToggleAria}
+          onClick={onLanguageToggle}
+        >
+          <Languages aria-hidden="true" size={18} />
+          <span>{t.languageToggleText}</span>
+        </button>
+        <BoardSizeSelect value={game.size} t={t} onChange={onBoardSizeChange} />
         <button className="primary" type="button" onClick={onNewGame}>
           <RotateCcw aria-hidden="true" size={18} />
-          <span>New game</span>
+          <span>{t.labels.newGame}</span>
         </button>
       </div>
     </header>
   );
 }
 
-function BoardSizeSelect({ value, onChange }: { value: BoardSize; onChange(size: BoardSize): void }) {
+function BoardSizeSelect({
+  value,
+  t,
+  onChange,
+}: {
+  value: BoardSize;
+  t: TranslationBundle;
+  onChange(size: BoardSize): void;
+}) {
   return (
     <label className="field compact-field" htmlFor="boardSize">
-      <span>Board</span>
+      <span>{t.labels.board}</span>
       <select
         id="boardSize"
         value={value}

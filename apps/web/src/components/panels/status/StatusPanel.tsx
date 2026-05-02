@@ -1,28 +1,25 @@
-import { colorName } from "../../../game/goEngine";
+import { TranslationBundle } from "../../../i18n";
 import { BLACK, GameState } from "../../../types";
 
 interface StatusPanelProps {
   game: GameState;
   statusText: string;
+  t: TranslationBundle;
 }
 
-export function StatusPanel({ game, statusText }: StatusPanelProps) {
+export function StatusPanel({ game, statusText, t }: StatusPanelProps) {
   const currentStoneClass = game.current === BLACK ? "black" : "white";
 
   return (
     <section className="panel status-panel">
       <div className="status-header">
         <div>
-          <p className="eyebrow">Current turn</p>
-          <h2>{game.gameOver ? winnerLabel(game) : `${colorName(game.current)} to play`}</h2>
+          <p className="eyebrow">{t.labels.currentTurn}</p>
+          <h2>{game.gameOver ? t.winner(game.winner) : t.currentPlayer(game.current)}</h2>
         </div>
         <span className={`turn-stone ${currentStoneClass}`} aria-hidden="true" />
       </div>
       <p className="status-copy">{statusText}</p>
     </section>
   );
-}
-
-function winnerLabel(game: GameState) {
-  return game.winner ? `${colorName(game.winner)} wins` : "Game finished";
 }

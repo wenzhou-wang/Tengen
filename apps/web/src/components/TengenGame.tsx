@@ -2,15 +2,16 @@ import { AppHeader } from "./layout/AppHeader";
 import { BoardArea } from "./layout/BoardArea";
 import { SidePanel } from "./panels/SidePanel";
 import { ToastRegion } from "./ui/ToastRegion";
-import { colorName } from "../game/goEngine";
 import { useGoGame } from "../hooks/useGoGame";
+import { useLanguagePreference } from "../i18n";
 import { BoardSize } from "../types";
 
 export function TengenGame() {
-  const { game, settings, score, statusText, toast, actions } = useGoGame();
+  const { t, toggleLanguage } = useLanguagePreference();
+  const { game, settings, score, statusText, toast, actions } = useGoGame(t);
 
   const handleBoardSizeChange = (size: BoardSize) => {
-    if (game.moveNumber > 0 && !window.confirm("Changing board size starts a new game. Continue?")) {
+    if (game.moveNumber > 0 && !window.confirm(t.confirm.changeBoardSize)) {
       return;
     }
 
@@ -18,7 +19,7 @@ export function TengenGame() {
   };
 
   const handleNewGame = () => {
-    if (game.moveNumber > 0 && !window.confirm("Start a new game and clear the board?")) {
+    if (game.moveNumber > 0 && !window.confirm(t.confirm.newGame)) {
       return;
     }
 
@@ -26,7 +27,7 @@ export function TengenGame() {
   };
 
   const handleResign = () => {
-    if (window.confirm(`${colorName(game.current)} resigns?`)) {
+    if (window.confirm(t.confirm.resign(game.current))) {
       actions.resignGame();
     }
   };
@@ -34,14 +35,21 @@ export function TengenGame() {
   return (
     <>
       <div className="app-shell">
-        <AppHeader game={game} onBoardSizeChange={handleBoardSizeChange} onNewGame={handleNewGame} />
+        <AppHeader
+          game={game}
+          t={t}
+          onBoardSizeChange={handleBoardSizeChange}
+          onLanguageToggle={toggleLanguage}
+          onNewGame={handleNewGame}
+        />
         <main className="game-layout">
-          <BoardArea game={game} settings={settings} onPlayMove={actions.playMove} />
+          <BoardArea game={game} settings={settings} t={t} onPlayMove={actions.playMove} />
           <SidePanel
             game={game}
             score={score}
             settings={settings}
             statusText={statusText}
+            t={t}
             onExportSgf={actions.exportSgf}
             onPass={actions.passTurn}
             onResign={handleResign}

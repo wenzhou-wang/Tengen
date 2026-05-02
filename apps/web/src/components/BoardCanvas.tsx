@@ -1,6 +1,7 @@
 import { PointerEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
 
 import { evaluateMove, isOnBoard } from "../game/goEngine";
+import { TranslationBundle } from "../i18n";
 import {
   BLACK,
   BoardMetrics,
@@ -15,10 +16,11 @@ import {
 interface BoardCanvasProps {
   game: GameState;
   settings: BoardSettings;
+  t: TranslationBundle;
   onPlayMove(x: number, y: number): boolean;
 }
 
-export function BoardCanvas({ game, settings, onPlayMove }: BoardCanvasProps) {
+export function BoardCanvas({ game, settings, t, onPlayMove }: BoardCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [hover, setHover] = useState<Point | null>(null);
 
@@ -77,7 +79,7 @@ export function BoardCanvas({ game, settings, onPlayMove }: BoardCanvasProps) {
       height={960}
       tabIndex={0}
       role="img"
-      aria-label={`Interactive ${game.size} by ${game.size} go board`}
+      aria-label={t.boardCanvasAria(game.size)}
       onPointerMove={handlePointerMove}
       onPointerLeave={() => setHover(null)}
       onPointerDown={handleClick}
