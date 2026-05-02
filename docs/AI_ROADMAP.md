@@ -7,8 +7,10 @@ and promotion gates.
 
 ## Target Architecture
 
-- `apps/web` owns browser interaction, local board rendering, and game review controls.
-- `apps/server` owns authoritative game state for online and AI-backed sessions.
+- `apps/web` owns browser interaction, local board rendering, local/offline games,
+  browser inference sessions, and game review controls.
+- `apps/server` owns authoritative game state for online sessions, server inference
+  sessions, persisted records, benchmark runs, and model registry metadata.
 - A shared game core validates board sizes, legal moves, captures, passing, resigning,
   scoring, serialization, and SGF export consistently across web and server.
 - The web client calls the server for session creation, game actions, AI move requests,
@@ -25,6 +27,18 @@ and promotion gates.
 - The web/server boundary remains typed and stable for TypeScript consumers
   regardless of where inference executes.
 
+Supported inference modes:
+
+- Server inference: the browser sends game actions and AI move requests to
+  `apps/server`; the server owns the session, runs the AI player, validates and
+  applies moves through the shared game core, persists records, and streams updates
+  back to connected clients.
+- Browser inference: the browser loads a quantized ONNX model, runs `getMove`
+  locally through `onnxruntime-web`, validates and applies moves through the shared
+  game core for local/offline sessions, and exports records from the client. If a
+  browser-run model participates in an online/server-backed session, the browser
+  submits proposed moves to the server and the server remains authoritative.
+
 Expected AI player contract:
 
 ```ts
@@ -32,6 +46,7 @@ interface AiPlayer {
   id: string;
   label: string;
   kind: "random" | "heuristic" | "external" | "model";
+  inferenceMode: "server" | "browser";
   getMove(gameState: PublicGameState): Promise<ControllerMove>;
 }
 ```
@@ -153,11 +168,15 @@ Deliverables:
 - Server-side inference path using ONNX Runtime (Python first; Rust/C++ deferred
   until MCTS or per-call overhead requires it) that implements the shared
   `getMove(gameState)` contract.
+- Session metadata that records whether a game used server inference or browser
+  inference.
 - Evaluation harness for model vs baseline bot matches.
 
 Acceptance criteria:
 
 - A trained model can complete legal games through the server.
+- Server inference sessions are reproducible from model artifact, game record,
+  inference settings, and seed where applicable.
 - Model artifacts are reproducible from documented data and training configuration.
 - Each registered model records training data version, code version, board sizes,
   evaluation results, and promotion status.
@@ -174,6 +193,8 @@ Deliverables:
   WASM fallback, consuming the quantized ONNX artifact produced in Milestone 5.
 - Backend selection (WebGPU vs WASM) with capability detection, first-load weight
   caching, and a visible indicator of where inference is running (browser vs server).
+- Explicit mode selection between server inference and browser inference for models
+  that support both paths.
 - AI-vs-AI viewing mode with start, pause, step, resume, and replay controls.
 - Basic model and bot metadata in the game UI, including which inference target a
   given session is using.
@@ -184,8 +205,10 @@ Deliverables:
 Acceptance criteria:
 
 - A human can start and finish a browser game against a selected AI opponent.
+- A human can choose server inference for an AI game when the server is available.
 - A registered model can run end-to-end in the browser via WebGPU, with a WASM
   fallback exercised on a browser without WebGPU support.
+- Browser inference games can be played locally without a server round trip.
 - A human can watch two AIs play through the browser.
 - AI games can be paused, stepped, resumed, replayed, and exported.
 - The UI distinguishes baseline bots, benchmark engines, and custom models, and
@@ -218,7 +241,11 @@ The roadmap is complete when:
 
 - A human can play an AI through the browser.
 - A human can watch AI-vs-AI games through the browser.
+- AI games support both server inference and browser inference when the selected
+  model has compatible artifacts.
 - Server-backed games are reproducible and exportable.
+- Browser-inference games are exportable and can be replayed through the shared game
+  core.
 - New models can be benchmarked before becoming selectable.
 - Web, server, AI players, and training jobs agree on legal moves through the shared
   game core.
