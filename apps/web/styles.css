@@ -520,3 +520,51 @@ button svg {
     width: 100%;
   }
 }
+
+/* server-session bar */
+.server-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: var(--surface-strong);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.server-bar__label {
+  font-weight: 600;
+  color: var(--accent-strong);
+}
+
+.server-bar__id {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85rem;
+  background: var(--surface);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+}
+
+.server-bar__leave {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.server-bar__error {
+  color: var(--warn);
+  font-size: 0.85rem;
+}
+
+.loading,
+.error {
+  padding: 2rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.error {
+  color: var(--warn);
+}

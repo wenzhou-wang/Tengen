@@ -68,6 +68,25 @@ export interface TranslationBundle {
     blackTotal: string;
     whiteTotal: string;
   };
+  server: {
+    serverGame: string;
+    localGame: string;
+    start: string;
+    starting: string;
+    copyLink: string;
+    copied: string;
+    leave: string;
+    couldNotCopyLink: string;
+    couldNotStart: string;
+    loading: string;
+    loadError(detail: string): string;
+    unknownError: string;
+    returnToLocal: string;
+    actionFailed(detail: string): string;
+    sgfFailed: string;
+    createFailed: string;
+    loadFailed: string;
+  };
 }
 
 const LANGUAGE_STORAGE_KEY = "tengen-language";
@@ -163,6 +182,25 @@ const english: TranslationBundle = {
     blackTotal: "Black total",
     whiteTotal: "White total",
   },
+  server: {
+    serverGame: "Server game",
+    localGame: "Local game",
+    start: "Start server game",
+    starting: "Starting…",
+    copyLink: "Copy link",
+    copied: "Copied!",
+    leave: "Leave server game",
+    couldNotCopyLink: "Could not copy link.",
+    couldNotStart: "Could not start server game.",
+    loading: "Loading server game…",
+    loadError: (detail) => `Could not load session: ${detail}`,
+    unknownError: "Unknown error.",
+    returnToLocal: "Return to local play",
+    actionFailed: (detail) => `Action failed: ${detail}`,
+    sgfFailed: "SGF export failed.",
+    createFailed: "Failed to create session.",
+    loadFailed: "Failed to load session.",
+  },
 };
 
 const chinese: TranslationBundle = {
@@ -254,6 +292,25 @@ const chinese: TranslationBundle = {
     whiteTerritory: "白方地域",
     blackTotal: "黑方总目",
     whiteTotal: "白方总目",
+  },
+  server: {
+    serverGame: "联网对局",
+    localGame: "本地对局",
+    start: "开始联网对局",
+    starting: "启动中…",
+    copyLink: "复制链接",
+    copied: "已复制！",
+    leave: "离开联网对局",
+    couldNotCopyLink: "复制链接失败。",
+    couldNotStart: "无法开始联网对局。",
+    loading: "正在加载联网对局…",
+    loadError: (detail) => `无法加载对局：${detail}`,
+    unknownError: "未知错误。",
+    returnToLocal: "返回本地对局",
+    actionFailed: (detail) => `操作失败：${detail}`,
+    sgfFailed: "SGF 导出失败。",
+    createFailed: "创建对局失败。",
+    loadFailed: "加载对局失败。",
   },
 };
 

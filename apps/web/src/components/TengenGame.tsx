@@ -1,5 +1,6 @@
 import { AppHeader } from "./layout/AppHeader";
 import { BoardArea } from "./layout/BoardArea";
+import { ServerSessionBar } from "./ServerSessionBar";
 import { SidePanel } from "./panels/SidePanel";
 import { ToastRegion } from "./ui/ToastRegion";
 import { useGoGame } from "../hooks/useGoGame";
@@ -35,6 +36,7 @@ export function TengenGame() {
   return (
     <>
       <div className="app-shell">
+        <ServerSessionBar t={t} sessionId={null} />
         <AppHeader
           game={game}
           t={t}
