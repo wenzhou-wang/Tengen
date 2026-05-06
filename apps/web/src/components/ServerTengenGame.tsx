@@ -13,12 +13,13 @@ interface ServerTengenGameProps {
 
 export function ServerTengenGame({ sessionId }: ServerTengenGameProps) {
   const { t, toggleLanguage } = useLanguagePreference();
-  const { status, error, game, settings, score, statusText, toast, actions } = useServerGame(sessionId, t);
+  const { status, error, session, game, settings, score, statusText, toast, actions } =
+    useServerGame(sessionId, t);
 
   if (status === "error") {
     return (
       <div className="app-shell">
-        <ServerSessionBar t={t} sessionId={sessionId} />
+        <ServerSessionBar t={t} sessionId={sessionId} players={undefined} />
         <main className="game-layout">
           <p className="error">{t.server.loadError(error ?? t.server.unknownError)}</p>
           <p>
@@ -32,7 +33,7 @@ export function ServerTengenGame({ sessionId }: ServerTengenGameProps) {
   if (status === "loading" || !game || !score) {
     return (
       <div className="app-shell">
-        <ServerSessionBar t={t} sessionId={sessionId} />
+        <ServerSessionBar t={t} sessionId={sessionId} players={undefined} />
         <main className="game-layout">
           <p className="loading">{t.server.loading}</p>
         </main>
@@ -66,7 +67,7 @@ export function ServerTengenGame({ sessionId }: ServerTengenGameProps) {
   return (
     <>
       <div className="app-shell">
-        <ServerSessionBar t={t} sessionId={sessionId} />
+        <ServerSessionBar t={t} sessionId={sessionId} players={session?.players} />
         <AppHeader
           game={game}
           t={t}

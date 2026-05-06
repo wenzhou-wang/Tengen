@@ -2,18 +2,40 @@ import type { GameState } from "@tengen/game-core";
 
 export type SessionMode = "humanVsHuman" | "humanVsAi" | "aiVsAi";
 
+export type PlayerSpec =
+  | { kind: "human" }
+  | { kind: "bot"; id: string; label: string; version: string };
+
+export interface PlayerSpecInput {
+  kind: "human" | "bot";
+  id?: string;
+}
+
+export interface SessionPlayers {
+  black: PlayerSpec;
+  white: PlayerSpec;
+}
+
 export interface SessionRecord {
   id: string;
   mode: SessionMode;
   size: 9 | 13 | 19;
   createdAt: string;
   updatedAt: string;
+  players: SessionPlayers;
   game: GameState;
+}
+
+export interface BotMetadata {
+  id: string;
+  label: string;
+  version: string;
+  kind: "random" | "heuristic" | "external" | "model";
 }
 
 export interface CreateSessionInput {
   size: 9 | 13 | 19;
-  mode?: SessionMode;
+  players?: { black?: PlayerSpecInput; white?: PlayerSpecInput };
 }
 
 export class ServerError extends Error {
@@ -51,10 +73,16 @@ export class TengenServerClient {
   constructor(readonly baseUrl: string = DEFAULT_BASE_URL) {}
 
   createSession(input: CreateSessionInput): Promise<SessionRecord> {
+    const payload: Record<string, unknown> = { size: input.size };
+    if (input.players) payload.players = input.players;
     return jsonRequest<SessionRecord>(`${this.baseUrl}/sessions`, {
       method: "POST",
-      body: JSON.stringify({ size: input.size, mode: input.mode ?? "humanVsHuman" }),
+      body: JSON.stringify(payload),
     });
+  }
+
+  listBots(): Promise<BotMetadata[]> {
+    return jsonRequest<BotMetadata[]>(`${this.baseUrl}/bots`);
   }
 
   getSession(id: string): Promise<SessionRecord> {

@@ -558,6 +558,27 @@ button svg {
   font-size: 0.85rem;
 }
 
+.server-bar__players {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.server-bar__field {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+}
+
+.server-bar__field select {
+  font: inherit;
+  padding: 0.15rem 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: inherit;
+}
+
 .loading,
 .error {
   padding: 2rem;

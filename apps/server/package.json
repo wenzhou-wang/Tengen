@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@tengen/ai-bots": "*",
     "@tengen/game-core": "*"
   },
   "devDependencies": {

@@ -1,6 +1,9 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { createServer, type Server } from "node:http";
 
+import { listBotMetadata } from "@tengen/ai-bots";
+
+import { AiMoveLoop, type AiLoopOptions } from "./aiLoop.ts";
 import { attachSseStream, EventBus } from "./events.ts";
 import { HttpError, SessionService } from "./sessions.ts";
 import { InMemorySessionStore, type SessionStore } from "./store.ts";
@@ -18,6 +21,7 @@ interface RouteContext {
   url: URL;
   service: SessionService;
   bus: EventBus;
+  ai: AiMoveLoop;
 }
 
 type RouteHandler = (ctx: RouteContext, params: Record<string, string>) => Promise<void> | void;
@@ -109,6 +113,7 @@ function sendError(res: ServerResponse, error: unknown): void {
 export interface CreateHttpServerOptions {
   store?: SessionStore;
   bus?: EventBus;
+  ai?: AiLoopOptions;
 }
 
 export interface HttpServerHandle {
@@ -116,6 +121,7 @@ export interface HttpServerHandle {
   service: SessionService;
   bus: EventBus;
   store: SessionStore;
+  ai: AiMoveLoop;
   close(): Promise<void>;
 }
 
@@ -123,17 +129,25 @@ export function createHttpServer(options: CreateHttpServerOptions = {}): HttpSer
   const store = options.store ?? new InMemorySessionStore();
   const bus = options.bus ?? new EventBus();
   const service = new SessionService(store, bus);
+  const ai = new AiMoveLoop(service, options.ai);
 
   const routes: Route[] = [
     defineRoute("GET", "/health", ({ res }) => {
       sendJson(res, 200, { ok: true });
     }),
-    defineRoute("POST", "/sessions", async ({ req, res, service }) => {
+    defineRoute("GET", "/bots", ({ res }) => {
+      sendJson(res, 200, listBotMetadata());
+    }),
+    defineRoute("POST", "/sessions", async ({ req, res, service, ai }) => {
       const body = await readJsonObjectBody(req);
       const size = typeof body.size === "number" ? body.size : undefined;
-      const mode = typeof body.mode === "string" ? body.mode : undefined;
-      const session = service.create({ size, mode });
+      const players =
+        body.players && typeof body.players === "object" && !Array.isArray(body.players)
+          ? (body.players as { black?: { kind?: string; id?: string }; white?: { kind?: string; id?: string } })
+          : undefined;
+      const session = service.create({ size, players });
       sendJson(res, 201, session);
+      ai.schedule(session);
     }),
     defineRoute("GET", "/sessions", ({ res, service }) => {
       sendJson(res, 200, service.store.list());
@@ -141,22 +155,27 @@ export function createHttpServer(options: CreateHttpServerOptions = {}): HttpSer
     defineRoute("GET", "/sessions/:id", ({ res, service }, params) => {
       sendJson(res, 200, service.get(params.id));
     }),
-    defineRoute("POST", "/sessions/:id/moves", async ({ req, res, service }, params) => {
+    defineRoute("POST", "/sessions/:id/moves", async ({ req, res, service, ai }, params) => {
       const body = await readJsonObjectBody(req);
       if (typeof body.x !== "number" || typeof body.y !== "number") {
         throw new HttpError(400, "Move requires numeric x and y.");
       }
       const session = service.playMove(params.id, body.x, body.y);
       sendJson(res, 200, session);
+      ai.schedule(session);
     }),
-    defineRoute("POST", "/sessions/:id/pass", ({ res, service }, params) => {
-      sendJson(res, 200, service.pass(params.id));
+    defineRoute("POST", "/sessions/:id/pass", ({ res, service, ai }, params) => {
+      const session = service.pass(params.id);
+      sendJson(res, 200, session);
+      ai.schedule(session);
     }),
     defineRoute("POST", "/sessions/:id/resign", ({ res, service }, params) => {
       sendJson(res, 200, service.resign(params.id));
     }),
-    defineRoute("POST", "/sessions/:id/undo", ({ res, service }, params) => {
-      sendJson(res, 200, service.undo(params.id));
+    defineRoute("POST", "/sessions/:id/undo", ({ res, service, ai }, params) => {
+      const session = service.undo(params.id);
+      sendJson(res, 200, session);
+      ai.schedule(session);
     }),
     defineRoute("GET", "/sessions/:id/sgf", ({ res, service }, params) => {
       sendText(res, 200, service.exportSgf(params.id), "application/x-go-sgf; charset=utf-8");
@@ -190,7 +209,7 @@ export function createHttpServer(options: CreateHttpServerOptions = {}): HttpSer
         params[name] = decodeURIComponent(match[i + 1]);
       });
       try {
-        await route.handler({ req, res, url, service, bus }, params);
+        await route.handler({ req, res, url, service, bus, ai }, params);
       } catch (error) {
         sendError(res, error);
       }
@@ -205,8 +224,10 @@ export function createHttpServer(options: CreateHttpServerOptions = {}): HttpSer
     service,
     bus,
     store,
+    ai,
     close: () =>
       new Promise<void>((resolve, reject) => {
+        ai.dispose();
         server.close((err) => (err ? reject(err) : resolve()));
         // SSE responses are long-lived "active" requests; without this they
         // would block server.close() until every browser tab disconnects.

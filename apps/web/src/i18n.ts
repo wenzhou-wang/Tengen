@@ -86,6 +86,12 @@ export interface TranslationBundle {
     sgfFailed: string;
     createFailed: string;
     loadFailed: string;
+    blackPlayer: string;
+    whitePlayer: string;
+    opponentHuman: string;
+    opponentBotPrefix: string;
+    waitingForBot(label: string): string;
+    botPlayer(label: string): string;
   };
 }
 
@@ -200,6 +206,12 @@ const english: TranslationBundle = {
     sgfFailed: "SGF export failed.",
     createFailed: "Failed to create session.",
     loadFailed: "Failed to load session.",
+    blackPlayer: "Black",
+    whitePlayer: "White",
+    opponentHuman: "Human",
+    opponentBotPrefix: "Bot:",
+    waitingForBot: (label) => `Waiting for ${label}…`,
+    botPlayer: (label) => `${label} (bot)`,
   },
 };
 
@@ -311,6 +323,12 @@ const chinese: TranslationBundle = {
     sgfFailed: "SGF 导出失败。",
     createFailed: "创建对局失败。",
     loadFailed: "加载对局失败。",
+    blackPlayer: "黑方",
+    whitePlayer: "白方",
+    opponentHuman: "人类",
+    opponentBotPrefix: "AI：",
+    waitingForBot: (label) => `等待 ${label} 出招…`,
+    botPlayer: (label) => `${label}（AI）`,
   },
 };
 

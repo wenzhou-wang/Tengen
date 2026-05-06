@@ -4,8 +4,81 @@ Append-only log of milestone progress against `docs/AI_ROADMAP.md`. Newest
 entries go at the top. See `CLAUDE.md` for the entry format and the rules for
 when to add an entry.
 
-Current milestone: **M2 — Game Server MVP** (complete pending in-browser
-sanity-check). M3 not yet started.
+Current milestone: **M3 — Baseline AI Opponents** (deliverables shipped pending
+in-browser sanity-check). M4 not yet started.
+
+## 2026-05-05 — M3 follow-ups: bot-turn protection, stale-decision drop, mode input removed
+
+Milestone: M3 — Baseline AI Opponents
+Status: in progress (post-ship fixes)
+
+- The server now refuses human/API actions during a bot's turn. `playMove`,
+  `pass`, and `resign` accept an `{ actor: "human" | "bot" }` option (default
+  human). Human-actor calls reject with 409 `Cannot <action>: it is the bot's
+  turn.` if the current color belongs to a bot. The `AiMoveLoop` calls with
+  `actor: "bot"` to bypass the check. Closes the bug where a direct
+  `POST /sessions/:id/moves` during the bot's turn placed a stone in the
+  bot's color.
+- The AI loop now snapshots the decision context (sessionId, moveNumber,
+  current color, bot id+version) before calling `bot.getMove()` and re-checks
+  it against a fresh `peek` immediately before applying. If anything changed
+  (state advanced, color flipped, players replaced, game ended), the decision
+  is dropped, a structured `{ event: "ai_move", decision: { type: "stale" } }`
+  log line is emitted, and the loop re-evaluates from current state. The
+  same check runs after a getMove rejection so we don't fire a fallback pass
+  on behalf of a stale color.
+- `mode` is no longer accepted on `POST /sessions`. It was always derivable
+  from `players` and the partial validation it had only worked for
+  `humanVsHuman`. The web client's `CreateSessionInput` no longer carries a
+  `mode` field. The server still emits `mode` on the response, derived from
+  players, so existing display code keeps working.
+- Server tests added: bot-turn-protection (move/pass/resign all 409 during
+  bot's turn) and stale-decision drop (forces a state change during the bot's
+  delay window and asserts the loop emits a `stale` log instead of applying).
+- Existing AI test "rejects mode mismatch" replaced with one that asserts the
+  server silently ignores any `mode` field on input and derives it from
+  players.
+
+## 2026-05-04 — M3 Baseline AI opponents shipped (random + heuristic, server loop, web selector)
+
+Milestone: M3 — Baseline AI Opponents
+Status: deliverable shipped (milestone substantially complete; external engine adapter intentionally deferred)
+
+- New `@tengen/ai-bots` workspace package with the shared `AiPlayer` contract,
+  a `RandomBot` (`random-v1`), a `HeuristicBot` (`heuristic-v1`) that scores
+  candidates by captures, atari avoidance, liberty counts, and edge-line
+  preference, plus a small bot registry. Unit tests cover capture-when-offered,
+  self-atari avoidance, game-over passing, and the registry shape.
+- The server now stores `players: { black, white }` per session, derives
+  `mode` (`humanVsHuman | humanVsAi | aiVsAi`) from those players, and exposes
+  `GET /bots` for client-side discovery. `POST /sessions` accepts a `players`
+  object; the previous behavior (no players → both human) still works.
+- New `AiMoveLoop` schedules bot replies after every state-mutating route.
+  Per-session lock prevents reentrancy; AI-vs-AI sessions chain moves until a
+  human's turn, game-over, or error. Each AI move is logged as a single-line
+  JSON event (`event: "ai_move"`) carrying `sessionId`, `moveNumber`, `color`,
+  `bot.id`, `bot.version`, decision (play/pass), and `durationMs`. Timeouts
+  and unrecognized/illegal returns fall back to a logged pass.
+- Server tests cover `/bots` discovery, unknown bot rejection, mode-mismatch
+  detection, human-vs-AI move flow with structured AI logs, and a full
+  random-vs-heuristic AI-vs-AI 9x9 game ending with a valid result and SGF.
+- `ServerSessionBar` now offers Black/White opponent selectors (Human / each
+  registered bot) on the start screen and shows the active player roster
+  ("Black: Random bot (bot) · White: Human") on the in-game bar. Strings are
+  internationalized in both English and Simplified Chinese.
+
+Acceptance criteria affected, by milestone:
+
+- M3: human can play random and heuristic bots in the browser through the server — met (server tests + web UI; needs in-browser sanity-check pass).
+- M3: two baseline bots can play each other through server-managed sessions — met (`runs an AI vs AI game to completion`).
+- M3: external engine use is optional and never required for core development or tests — met (no external engine wired in; structure leaves room for one behind the same `AiPlayer` contract).
+- M3: AI moves are logged with bot identity and version metadata — met (`AiMoveLoop` emits one structured `ai_move` log per move).
+
+Follow-ups / known gaps:
+
+- External engine (e.g. GTP / KataGo) adapter not implemented; deferred until needed for benchmarking in M7.
+- AI logs go to stdout only; centralized structured logging will arrive with the model registry in M5.
+- Manual two-tab + opponent-selector browser sanity-check still pending.
 
 ## 2026-05-04 — M2 follow-ups: body validation, deferred SSE subscribe
 

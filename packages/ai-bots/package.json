@@ -1,0 +1,29 @@
+{
+  "name": "@tengen/ai-bots",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Baseline Go AI players (random, heuristic) implementing the shared AiPlayer contract.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "test": "node --test --experimental-transform-types --no-warnings test/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tengen/game-core": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

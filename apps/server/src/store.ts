@@ -2,17 +2,41 @@ import { createInitialState, type BoardSize, type GameState } from "@tengen/game
 
 export type SessionMode = "humanVsHuman" | "humanVsAi" | "aiVsAi";
 
+export interface HumanPlayerSpec {
+  kind: "human";
+}
+
+export interface BotPlayerSpec {
+  kind: "bot";
+  id: string;
+  label: string;
+  version: string;
+}
+
+export type PlayerSpec = HumanPlayerSpec | BotPlayerSpec;
+
+export interface SessionPlayers {
+  black: PlayerSpec;
+  white: PlayerSpec;
+}
+
 export interface SessionRecord {
   id: string;
   mode: SessionMode;
   size: BoardSize;
   createdAt: string;
   updatedAt: string;
+  players: SessionPlayers;
   game: GameState;
 }
 
 export interface SessionStore {
-  create(input: { id: string; mode: SessionMode; size: BoardSize }): SessionRecord;
+  create(input: {
+    id: string;
+    mode: SessionMode;
+    size: BoardSize;
+    players: SessionPlayers;
+  }): SessionRecord;
   get(id: string): SessionRecord | undefined;
   update(id: string, mutate: (game: GameState) => GameState): SessionRecord | undefined;
   list(): SessionRecord[];
@@ -22,7 +46,12 @@ export interface SessionStore {
 export class InMemorySessionStore implements SessionStore {
   readonly #sessions = new Map<string, SessionRecord>();
 
-  create(input: { id: string; mode: SessionMode; size: BoardSize }): SessionRecord {
+  create(input: {
+    id: string;
+    mode: SessionMode;
+    size: BoardSize;
+    players: SessionPlayers;
+  }): SessionRecord {
     const now = new Date().toISOString();
     const record: SessionRecord = {
       id: input.id,
@@ -30,6 +59,7 @@ export class InMemorySessionStore implements SessionStore {
       size: input.size,
       createdAt: now,
       updatedAt: now,
+      players: input.players,
       game: createInitialState(input.size),
     };
     this.#sessions.set(record.id, record);
