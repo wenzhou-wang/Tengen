@@ -7,6 +7,45 @@ when to add an entry.
 Current milestone: **M3 — Baseline AI Opponents** (deliverables shipped pending
 in-browser sanity-check). M4 not yet started.
 
+## 2026-05-06 — Time controls: traditional weiqi main + byo-yomi clocks
+
+Milestone: Cross-cutting (M3 follow-up; foundation for M4+ time-bounded play)
+Status: deliverable shipped
+
+- New clock primitives in `@tengen/game-core` (`TimeControl`, `PlayerClock`,
+  `SessionClocks`, `applyElapsed`, `projectRemainingMs`, `timeUntilLossMs`,
+  `createInitialClocks`, `isUnlimitedTimeControl`). Implements traditional
+  rules: a per-player main-time budget plus a per-move byo-yomi cap once main
+  time is exhausted; overrunning byo-yomi forfeits the game.
+- `POST /sessions` now accepts an optional
+  `timeControl: { mainTimeSeconds, byoyomiSeconds }`. `{0,0}` and omission are
+  treated as unlimited. Clocks are persisted on `SessionRecord` and ticked
+  on each `playMove`/`pass`/`resign` against `turnStartedAt`. A timeout
+  watcher fires per-session `setTimeout` based on `timeUntilLossMs`; when a
+  player overruns, the game finalizes with `<winner>+T` (e.g. `B+T`) and the
+  store/SSE emits the terminal state. `SessionStore.update` now uses a
+  record-level mutator so clocks and game state update atomically.
+- The AI loop computes a per-move budget from the bot's clock (a fraction of
+  remaining main time, capped at 30s, or ~85% of the byo-yomi window when in
+  byo-yomi) and passes it to `bot.getMove(state, { clock })` via the new
+  `AiMoveContext`. The heuristic bot opportunistically samples its candidate
+  set under tight budgets. Bots with no time control receive no context and
+  fall back to the default 5s ceiling.
+- SGF export adds `TM[mainTime]` and `OT[1xN byo-yomi]` tags when a session
+  has time control; unlimited games omit them.
+- Web UI: the new-session bar now offers a time-control selector with four
+  presets (3h+30s default, 1h+30s, 20m+30s, 5m+10s) plus "Unlimited". A
+  live `ClockDisplay` renders both players' main / byo-yomi remaining time
+  in MM:SS, ticking 4Hz while the current player's clock is running, and
+  highlighting the side to move. English and Simplified Chinese translations
+  added.
+- 9 new server tests cover session creation with time control, validation,
+  per-move main-time deduction, end-to-end watcher-driven `B+T` time loss,
+  rejection of moves after a time loss, and SGF TM/OT tags. 14 new clock
+  unit tests cover main→byo-yomi transition, byo-yomi loss boundary,
+  projection, and unlimited handling. All 63 tests across the three
+  workspaces pass; web `tsc --noEmit && vite build` is clean.
+
 ## 2026-05-05 — M3 follow-ups: bot-turn protection, stale-decision drop, mode input removed
 
 Milestone: M3 — Baseline AI Opponents

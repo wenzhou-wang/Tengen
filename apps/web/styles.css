@@ -589,3 +589,65 @@ button svg {
 .error {
   color: var(--warn);
 }
+
+.game-layout__side {
+  display: grid;
+  gap: 14px;
+  align-self: start;
+}
+
+.clock-display {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 253, 248, 0.88);
+  box-shadow: 0 8px 22px rgba(42, 31, 20, 0.08);
+  font-variant-numeric: tabular-nums;
+}
+
+.clock-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.clock-row--current {
+  background: rgba(46, 111, 104, 0.12);
+  font-weight: 700;
+}
+
+.clock-row__color {
+  color: var(--muted);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.clock-row--current .clock-row__color {
+  color: var(--accent-strong);
+}
+
+.clock-row__main {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.clock-row__byoyomi {
+  color: var(--warn);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.clock-row__lost {
+  color: var(--warn);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}

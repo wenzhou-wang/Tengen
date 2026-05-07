@@ -16,9 +16,27 @@ interface ServerSessionBarProps {
 
 type Choice = "human" | string; // string = bot id
 
+interface TimeControlPreset {
+  id: string;
+  mainTimeSeconds: number;
+  byoyomiSeconds: number;
+}
+
+const TIME_CONTROL_PRESETS: TimeControlPreset[] = [
+  { id: "3h-30", mainTimeSeconds: 3 * 60 * 60, byoyomiSeconds: 30 },
+  { id: "1h-30", mainTimeSeconds: 60 * 60, byoyomiSeconds: 30 },
+  { id: "20m-30", mainTimeSeconds: 20 * 60, byoyomiSeconds: 30 },
+  { id: "5m-10", mainTimeSeconds: 5 * 60, byoyomiSeconds: 10 },
+];
+
 function choiceToSpec(choice: Choice): PlayerSpecInput {
   if (choice === "human") return { kind: "human" };
   return { kind: "bot", id: choice };
+}
+
+function findPreset(id: string): TimeControlPreset | null {
+  if (id === "none") return null;
+  return TIME_CONTROL_PRESETS.find((p) => p.id === id) ?? null;
 }
 
 function describePlayer(t: TranslationBundle, spec: SessionPlayers["black"]): string {
@@ -33,6 +51,7 @@ export function ServerSessionBar({ t, sessionId, players }: ServerSessionBarProp
   const [bots, setBots] = useState<BotMetadata[]>([]);
   const [black, setBlack] = useState<Choice>("human");
   const [white, setWhite] = useState<Choice>("random-v1");
+  const [timeControlId, setTimeControlId] = useState<string>("3h-30");
 
   useEffect(() => {
     let cancelled = false;
@@ -123,6 +142,21 @@ export function ServerSessionBar({ t, sessionId, players }: ServerSessionBarProp
           ))}
         </select>
       </label>
+      <label className="server-bar__field">
+        {t.server.timeControlLabel}
+        <select
+          value={timeControlId}
+          onChange={(e) => setTimeControlId(e.target.value)}
+          disabled={busy}
+        >
+          {TIME_CONTROL_PRESETS.map((preset) => (
+            <option key={preset.id} value={preset.id}>
+              {t.server.timeControlPreset(preset.mainTimeSeconds, preset.byoyomiSeconds)}
+            </option>
+          ))}
+          <option value="none">{t.server.timeControlUnlimited}</option>
+        </select>
+      </label>
       <button
         type="button"
         className="primary"
@@ -131,12 +165,19 @@ export function ServerSessionBar({ t, sessionId, players }: ServerSessionBarProp
           setBusy(true);
           setError(null);
           try {
+            const preset = findPreset(timeControlId);
             const session = await tengenServer.createSession({
               size: 19,
               players: {
                 black: choiceToSpec(black),
                 white: choiceToSpec(white),
               },
+              timeControl: preset
+                ? {
+                    mainTimeSeconds: preset.mainTimeSeconds,
+                    byoyomiSeconds: preset.byoyomiSeconds,
+                  }
+                : null,
             });
             const params = new URLSearchParams(window.location.search);
             params.set("session", session.id);

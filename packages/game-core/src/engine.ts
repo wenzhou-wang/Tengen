@@ -378,8 +378,20 @@ export function formatMove(move: MoveLogEntry): string {
   return `${move.number}. ${colorName(move.color)} resigns`;
 }
 
-export function buildSgf(game: GameSnapshot): string {
+export interface SgfBuildOptions {
+  timeControl?: { mainTimeSeconds: number; byoyomiSeconds: number } | null;
+}
+
+export function buildSgf(game: GameSnapshot, options: SgfBuildOptions = {}): string {
   const result = game.result ? `RE[${game.result}]` : "";
+  const tc = options.timeControl;
+  let timeTags = "";
+  if (tc && (tc.mainTimeSeconds > 0 || tc.byoyomiSeconds > 0)) {
+    if (tc.mainTimeSeconds > 0) timeTags += `TM[${tc.mainTimeSeconds}]`;
+    if (tc.byoyomiSeconds > 0) {
+      timeTags += `OT[1x${tc.byoyomiSeconds} byo-yomi]`;
+    }
+  }
   const moves = game.moveLog
     .filter((move) => move.type === "move" || move.type === "pass")
     .map((move) => {
@@ -388,7 +400,7 @@ export function buildSgf(game: GameSnapshot): string {
     })
     .join("");
 
-  return `(;GM[1]FF[4]CA[UTF-8]AP[Tengen:1]SZ[${game.size}]KM[${KOMI}]${result}${moves})`;
+  return `(;GM[1]FF[4]CA[UTF-8]AP[Tengen:1]SZ[${game.size}]KM[${KOMI}]${timeTags}${result}${moves})`;
 }
 
 export function getLegalMoves(game: GameSnapshot, color = game.current): LegalMove[] {

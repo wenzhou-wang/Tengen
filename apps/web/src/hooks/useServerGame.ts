@@ -181,7 +181,14 @@ export function useServerGame(sessionId: string, t: TranslationBundle): UseServe
       setStatusMessage({ kind: "undid" });
     } catch (err) {
       if (err instanceof ServerError && err.status === 409) {
-        notify(t.toast.noMovesToUndo);
+        // 409 covers both "no moves to undo" and "cannot undo a time-loss"
+        // (and any future undo-state rejection). Distinguish by message so
+        // we don't lie about the reason.
+        if (/no move/i.test(err.message)) {
+          notify(t.toast.noMovesToUndo);
+        } else {
+          notify(t.server.actionFailed(err.message));
+        }
       } else {
         notify(t.server.actionFailed(err instanceof Error ? err.message : t.server.unknownError));
       }
@@ -191,8 +198,14 @@ export function useServerGame(sessionId: string, t: TranslationBundle): UseServe
   const resetGame = useCallback(
     async (size: BoardSize | number) => {
       const boardSize = (size === 9 || size === 13 || size === 19 ? size : 19) as BoardSize;
+      const current = sessionRef.current;
       try {
-        const next = await tengenServer.createSession({ size: boardSize });
+        const next = await tengenServer.createSession({
+          size: boardSize,
+          // Preserve the active time control so a "New game" on a timed
+          // session doesn't silently downgrade to unlimited play.
+          timeControl: current?.timeControl ?? null,
+        });
         const params = new URLSearchParams(window.location.search);
         params.set("session", next.id);
         const url = `${window.location.pathname}?${params.toString()}${window.location.hash}`;

@@ -9,7 +9,7 @@ import {
   type PublicGameState,
 } from "@tengen/game-core";
 
-import type { AiPlayer } from "./types.ts";
+import type { AiMoveContext, AiPlayer } from "./types.ts";
 
 export interface HeuristicBotOptions {
   rng?: () => number;
@@ -136,6 +136,24 @@ function positionScore(x: number, y: number, size: number): number {
   return 1;
 }
 
+function sampleCandidates(
+  legal: readonly LegalMove[],
+  context: AiMoveContext | undefined,
+  rng: () => number,
+): readonly LegalMove[] {
+  const budget = context?.clock?.budgetMs;
+  if (budget === undefined || budget <= 0) return legal;
+  // Rough cap: budget ms ÷ (target ms per candidate). The heuristic evaluates
+  // ~10k candidates per second on a typical machine; keep a generous margin.
+  const cap = Math.max(8, Math.floor(budget / 1));
+  if (legal.length <= cap) return legal;
+  const indices = new Set<number>();
+  while (indices.size < cap) {
+    indices.add(Math.floor(rng() * legal.length));
+  }
+  return Array.from(indices).map((i) => legal[i]);
+}
+
 function pickBestMove(
   board: Board,
   size: number,
@@ -172,18 +190,17 @@ export function createHeuristicBot(options: HeuristicBotOptions = {}): AiPlayer 
     version: "1.0.0",
     kind: "heuristic",
     inferenceMode: "server",
-    async getMove(state: PublicGameState): Promise<ControllerMove> {
+    async getMove(state: PublicGameState, context?: AiMoveContext): Promise<ControllerMove> {
       if (state.gameOver) return { pass: true };
       if (state.legalMoves.length === 0) return { pass: true };
 
-      const best = pickBestMove(
-        state.board,
-        state.size,
-        state.current,
-        state.legalMoves,
-        jitter,
-        rng,
-      );
+      // Time-aware allocation: if we're in byoyomi with a tight budget, sample
+      // the legal-move set instead of evaluating every candidate. The bot still
+      // fits comfortably under any reasonable byoyomi (~30s), but the contract
+      // is in place for stronger searchers.
+      const candidates = sampleCandidates(state.legalMoves, context, rng);
+
+      const best = pickBestMove(state.board, state.size, state.current, candidates, jitter, rng);
       if (!best) return { pass: true };
 
       // If our best move is strictly worse than passing (negative-scoring,

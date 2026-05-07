@@ -1,4 +1,4 @@
-import type { GameState } from "@tengen/game-core";
+import type { GameState, SessionClocks, TimeControl } from "@tengen/game-core";
 
 export type SessionMode = "humanVsHuman" | "humanVsAi" | "aiVsAi";
 
@@ -24,6 +24,8 @@ export interface SessionRecord {
   updatedAt: string;
   players: SessionPlayers;
   game: GameState;
+  timeControl: TimeControl | null;
+  clocks: SessionClocks | null;
 }
 
 export interface BotMetadata {
@@ -36,6 +38,7 @@ export interface BotMetadata {
 export interface CreateSessionInput {
   size: 9 | 13 | 19;
   players?: { black?: PlayerSpecInput; white?: PlayerSpecInput };
+  timeControl?: TimeControl | null;
 }
 
 export class ServerError extends Error {
@@ -75,6 +78,7 @@ export class TengenServerClient {
   createSession(input: CreateSessionInput): Promise<SessionRecord> {
     const payload: Record<string, unknown> = { size: input.size };
     if (input.players) payload.players = input.players;
+    if (input.timeControl !== undefined) payload.timeControl = input.timeControl;
     return jsonRequest<SessionRecord>(`${this.baseUrl}/sessions`, {
       method: "POST",
       body: JSON.stringify(payload),

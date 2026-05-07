@@ -1,5 +1,6 @@
 import { AppHeader } from "./layout/AppHeader";
 import { BoardArea } from "./layout/BoardArea";
+import { ClockDisplay } from "./ClockDisplay";
 import { ServerSessionBar } from "./ServerSessionBar";
 import { SidePanel } from "./panels/SidePanel";
 import { ToastRegion } from "./ui/ToastRegion";
@@ -77,19 +78,28 @@ export function ServerTengenGame({ sessionId }: ServerTengenGameProps) {
         />
         <main className="game-layout">
           <BoardArea game={game} settings={settings} t={t} onPlayMove={playMoveSync} />
-          <SidePanel
-            game={game}
-            score={score}
-            settings={settings}
-            statusText={statusText}
-            t={t}
-            onExportSgf={actions.exportSgf}
-            onPass={() => void actions.passTurn()}
-            onResign={handleResign}
-            onScore={actions.scoreNow}
-            onUndo={() => void actions.undoMove()}
-            onUpdateSettings={actions.updateSettings}
-          />
+          <div className="game-layout__side">
+            <ClockDisplay
+              t={t}
+              timeControl={session?.timeControl ?? null}
+              clocks={session?.clocks ?? null}
+              current={game.current}
+              gameOver={game.gameOver}
+            />
+            <SidePanel
+              game={game}
+              score={score}
+              settings={settings}
+              statusText={statusText}
+              t={t}
+              onExportSgf={actions.exportSgf}
+              onPass={() => void actions.passTurn()}
+              onResign={handleResign}
+              onScore={actions.scoreNow}
+              onUndo={() => void actions.undoMove()}
+              onUpdateSettings={actions.updateSettings}
+            />
+          </div>
         </main>
       </div>
       <ToastRegion message={toast} />

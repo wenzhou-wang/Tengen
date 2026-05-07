@@ -1,11 +1,24 @@
-import { BLACK, getPublicState, type ControllerMove, type PlayerColor } from "@tengen/game-core";
-import { type AiPlayer, type BotId, createBot, isBotId } from "@tengen/ai-bots";
+import {
+  BLACK,
+  getPublicState,
+  isUnlimitedTimeControl,
+  timeUntilLossMs,
+  type ControllerMove,
+  type PlayerColor,
+} from "@tengen/game-core";
+import { type AiMoveContext, type AiPlayer, type BotId, createBot, isBotId } from "@tengen/ai-bots";
 
 import type { SessionService } from "./sessions.ts";
 import type { SessionRecord } from "./store.ts";
 
 export interface AiLoopOptions {
-  /** Maximum time to wait for a single AI move, in milliseconds. */
+  /** Hard ceiling for a single AI move, in milliseconds. */
+  maxMoveTimeoutMs?: number;
+  /** Floor for a single AI move so the bot has minimum think time. */
+  minMoveTimeoutMs?: number;
+  /** For unlimited games or generous main time, a sensible default budget. */
+  defaultMoveTimeoutMs?: number;
+  /** Backward-compatible alias for defaultMoveTimeoutMs. */
   moveTimeoutMs?: number;
   /** Delay between AI moves so AI-vs-AI play is observable in the UI. */
   delayMs?: number;
@@ -26,6 +39,8 @@ export interface AiMoveLogPayload {
   durationMs: number;
 }
 
+const DEFAULT_MAX_TIMEOUT = 30_000;
+const DEFAULT_MIN_TIMEOUT = 100;
 const DEFAULT_TIMEOUT = 5_000;
 const DEFAULT_DELAY = 50;
 
@@ -39,7 +54,9 @@ interface DecisionContext {
 
 export class AiMoveLoop {
   readonly #service: SessionService;
-  readonly #timeoutMs: number;
+  readonly #maxTimeoutMs: number;
+  readonly #minTimeoutMs: number;
+  readonly #defaultTimeoutMs: number;
   readonly #delayMs: number;
   readonly #log: (line: string) => void;
   readonly #running = new Set<string>();
@@ -48,7 +65,10 @@ export class AiMoveLoop {
 
   constructor(service: SessionService, options: AiLoopOptions = {}) {
     this.#service = service;
-    this.#timeoutMs = options.moveTimeoutMs ?? DEFAULT_TIMEOUT;
+    this.#maxTimeoutMs = options.maxMoveTimeoutMs ?? DEFAULT_MAX_TIMEOUT;
+    this.#minTimeoutMs = options.minMoveTimeoutMs ?? DEFAULT_MIN_TIMEOUT;
+    this.#defaultTimeoutMs =
+      options.defaultMoveTimeoutMs ?? options.moveTimeoutMs ?? DEFAULT_TIMEOUT;
     this.#delayMs = options.delayMs ?? DEFAULT_DELAY;
     this.#log = options.log ?? ((line) => console.log(line));
   }
@@ -115,9 +135,14 @@ export class AiMoveLoop {
       }
 
       const startedAt = Date.now();
+      const budgetMs = this.#computeBudget(current, startedAt);
+      const moveContext = this.#buildMoveContext(current, budgetMs);
       let decision: ControllerMove;
       try {
-        decision = await this.#withTimeout(bot.getMove(getPublicState(current.game)));
+        decision = await this.#withTimeout(
+          bot.getMove(getPublicState(current.game), moveContext),
+          budgetMs,
+        );
       } catch (err) {
         // Decision context may be stale; only fall back if state hasn't moved on.
         if (this.#contextStillCurrent(ctx)) {
@@ -261,9 +286,51 @@ export class AiMoveLoop {
     });
   }
 
-  async #withTimeout<T>(promise: Promise<T>): Promise<T> {
+  #computeBudget(record: SessionRecord, now: number): number {
+    const tc = record.timeControl;
+    const clocks = record.clocks;
+    if (!tc || !clocks || isUnlimitedTimeControl(tc)) return this.#defaultTimeoutMs;
+    const playerKey = record.game.current === BLACK ? "black" : "white";
+    const clock = clocks[playerKey];
+    const total = timeUntilLossMs(clock, tc);
+    if (!Number.isFinite(total)) return this.#defaultTimeoutMs;
+    const elapsedSinceTurn =
+      clocks.turnStartedAt === null ? 0 : Math.max(0, now - clocks.turnStartedAt);
+    const remaining = Math.max(0, total - elapsedSinceTurn);
+    const byoyomiMs = tc.byoyomiSeconds * 1000;
+    // In byoyomi: spend up to ~85% of the per-move budget; otherwise spend a
+    // fraction of remaining main time, but never more than 30s on any one move.
+    let target: number;
+    if (clock.inByoyomi) {
+      target = Math.floor(byoyomiMs * 0.85);
+    } else {
+      const mainAlloc = Math.floor(clock.mainRemainingMs / 30);
+      target = Math.max(byoyomiMs > 0 ? Math.floor(byoyomiMs * 0.85) : 0, mainAlloc);
+    }
+    const safe = Math.max(0, remaining - 200);
+    const clamped = Math.min(target, safe, this.#maxTimeoutMs);
+    return Math.max(this.#minTimeoutMs, clamped);
+  }
+
+  #buildMoveContext(record: SessionRecord, budgetMs: number): AiMoveContext | undefined {
+    const tc = record.timeControl;
+    const clocks = record.clocks;
+    if (!tc || !clocks || isUnlimitedTimeControl(tc)) return undefined;
+    const playerKey = record.game.current === BLACK ? "black" : "white";
+    const clock = clocks[playerKey];
+    return {
+      clock: {
+        budgetMs,
+        mainRemainingMs: clock.mainRemainingMs,
+        inByoyomi: clock.inByoyomi,
+        byoyomiMs: tc.byoyomiSeconds * 1000,
+      },
+    };
+  }
+
+  async #withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
     return new Promise<T>((resolve, reject) => {
-      const timer = setTimeout(() => reject(new Error("AI move timed out")), this.#timeoutMs);
+      const timer = setTimeout(() => reject(new Error("AI move timed out")), timeoutMs);
       timer.unref?.();
       promise.then(
         (value) => {

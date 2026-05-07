@@ -1,6 +1,6 @@
 import type { ControllerMove, PublicGameState } from "@tengen/game-core";
 
-import type { AiPlayer } from "./types.ts";
+import type { AiMoveContext, AiPlayer } from "./types.ts";
 
 export interface RandomBotOptions {
   rng?: () => number;
@@ -21,7 +21,7 @@ export function createRandomBot(options: RandomBotOptions = {}): AiPlayer {
     version: "1.0.0",
     kind: "random",
     inferenceMode: "server",
-    async getMove(state: PublicGameState): Promise<ControllerMove> {
+    async getMove(state: PublicGameState, _context?: AiMoveContext): Promise<ControllerMove> {
       if (state.gameOver) return { pass: true };
       const legal = state.legalMoves;
       if (legal.length === 0) return { pass: true };

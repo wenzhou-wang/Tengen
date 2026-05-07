@@ -5,8 +5,9 @@ import { listBotMetadata } from "@tengen/ai-bots";
 
 import { AiMoveLoop, type AiLoopOptions } from "./aiLoop.ts";
 import { attachSseStream, EventBus } from "./events.ts";
-import { HttpError, SessionService } from "./sessions.ts";
+import { HttpError, SessionService, type TimeControlInput } from "./sessions.ts";
 import { InMemorySessionStore, type SessionStore } from "./store.ts";
+import { TimeoutWatcher } from "./timeoutWatcher.ts";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
@@ -22,6 +23,7 @@ interface RouteContext {
   service: SessionService;
   bus: EventBus;
   ai: AiMoveLoop;
+  watcher: TimeoutWatcher;
 }
 
 type RouteHandler = (ctx: RouteContext, params: Record<string, string>) => Promise<void> | void;
@@ -122,6 +124,7 @@ export interface HttpServerHandle {
   bus: EventBus;
   store: SessionStore;
   ai: AiMoveLoop;
+  watcher: TimeoutWatcher;
   close(): Promise<void>;
 }
 
@@ -129,6 +132,8 @@ export function createHttpServer(options: CreateHttpServerOptions = {}): HttpSer
   const store = options.store ?? new InMemorySessionStore();
   const bus = options.bus ?? new EventBus();
   const service = new SessionService(store, bus);
+  const watcher = new TimeoutWatcher(service);
+  service.setTimeoutWatcher(watcher);
   const ai = new AiMoveLoop(service, options.ai);
 
   const routes: Route[] = [
@@ -145,7 +150,17 @@ export function createHttpServer(options: CreateHttpServerOptions = {}): HttpSer
         body.players && typeof body.players === "object" && !Array.isArray(body.players)
           ? (body.players as { black?: { kind?: string; id?: string }; white?: { kind?: string; id?: string } })
           : undefined;
-      const session = service.create({ size, players });
+      let timeControl: TimeControlInput | null | undefined;
+      if (body.timeControl === null) {
+        timeControl = null;
+      } else if (
+        body.timeControl &&
+        typeof body.timeControl === "object" &&
+        !Array.isArray(body.timeControl)
+      ) {
+        timeControl = body.timeControl as TimeControlInput;
+      }
+      const session = service.create({ size, players, timeControl });
       sendJson(res, 201, session);
       ai.schedule(session);
     }),
@@ -209,7 +224,7 @@ export function createHttpServer(options: CreateHttpServerOptions = {}): HttpSer
         params[name] = decodeURIComponent(match[i + 1]);
       });
       try {
-        await route.handler({ req, res, url, service, bus, ai }, params);
+        await route.handler({ req, res, url, service, bus, ai, watcher }, params);
       } catch (error) {
         sendError(res, error);
       }
@@ -225,9 +240,11 @@ export function createHttpServer(options: CreateHttpServerOptions = {}): HttpSer
     bus,
     store,
     ai,
+    watcher,
     close: () =>
       new Promise<void>((resolve, reject) => {
         ai.dispose();
+        watcher.dispose();
         server.close((err) => (err ? reject(err) : resolve()));
         // SSE responses are long-lived "active" requests; without this they
         // would block server.close() until every browser tab disconnects.

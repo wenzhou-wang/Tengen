@@ -92,6 +92,12 @@ export interface TranslationBundle {
     opponentBotPrefix: string;
     waitingForBot(label: string): string;
     botPlayer(label: string): string;
+    timeControlLabel: string;
+    timeControlUnlimited: string;
+    timeControlPreset(main: number, byo: number): string;
+    clockMainLabel: string;
+    clockByoyomiLabel: string;
+    clockLost: string;
   };
 }
 
@@ -212,6 +218,20 @@ const english: TranslationBundle = {
     opponentBotPrefix: "Bot:",
     waitingForBot: (label) => `Waiting for ${label}…`,
     botPlayer: (label) => `${label} (bot)`,
+    timeControlLabel: "Time control",
+    timeControlUnlimited: "Unlimited",
+    timeControlPreset: (main, byo) => {
+      const mainLabel =
+        main >= 3600
+          ? `${main / 3600}h`
+          : main >= 60
+            ? `${Math.round(main / 60)} min`
+            : `${main}s`;
+      return `${mainLabel} + ${byo}s byo-yomi`;
+    },
+    clockMainLabel: "Main",
+    clockByoyomiLabel: "Byo-yomi",
+    clockLost: "Time out",
   },
 };
 
@@ -329,6 +349,20 @@ const chinese: TranslationBundle = {
     opponentBotPrefix: "AI：",
     waitingForBot: (label) => `等待 ${label} 出招…`,
     botPlayer: (label) => `${label}（AI）`,
+    timeControlLabel: "用时设置",
+    timeControlUnlimited: "不限时",
+    timeControlPreset: (main, byo) => {
+      const mainLabel =
+        main >= 3600
+          ? `${main / 3600}小时`
+          : main >= 60
+            ? `${Math.round(main / 60)}分`
+            : `${main}秒`;
+      return `${mainLabel} + ${byo}秒读秒`;
+    },
+    clockMainLabel: "用时",
+    clockByoyomiLabel: "读秒",
+    clockLost: "超时",
   },
 };
 
