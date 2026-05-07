@@ -4,8 +4,35 @@ Append-only log of milestone progress against `docs/AI_ROADMAP.md`. Newest
 entries go at the top. See `CLAUDE.md` for the entry format and the rules for
 when to add an entry.
 
-Current milestone: **M3 — Baseline AI Opponents** (deliverables shipped pending
-in-browser sanity-check). M4 not yet started.
+Current milestone: **M3 — Baseline AI Opponents** complete; **M4 — Self-Play
+and Data Pipeline** prep work shipped, runner not yet started.
+
+## 2026-05-06 — M3 close-out: bot seed plumbing and bot resignation path
+
+Milestone: M3 — Baseline AI Opponents
+Status: milestone complete
+
+- `createBot(id, options?)` in `@tengen/ai-bots` now accepts
+  `{ seed?: number; rng?: () => number }`, plumbed through to the random
+  and heuristic bots. A new `createMulberry32` seedable PRNG is exported
+  from the package. With the same seed, `createBot("random-v1", { seed })`
+  produces an identical move sequence — the precondition for M4's
+  reproducible self-play. M3 acceptance criterion "AI moves are logged
+  with bot identity and version metadata" was already met; this
+  additionally enables seed-based reproducibility before M4 needs it.
+- `ControllerMove` (`@tengen/game-core`) now includes `{ resign: true }`,
+  and `AiMoveLoop.#applyDecision` routes resign decisions into
+  `service.resign({ actor: "bot" })`, emitting a structured
+  `{ event: "ai_move", decision: { type: "resign" } }` log line. Bots can
+  now resign (no built-in policy yet — the contract is in place; closes
+  the "AI ... resignation behavior" deliverable).
+- `AiLoopOptions` gains an optional `botFactory(id)` seam that overrides
+  the registry. Used by tests and intended for the upcoming self-play
+  runner so it can inject seeded or evaluation-only bots without mutating
+  global state.
+- 2 new ai-bots tests (seed determinism, mulberry32 reproducibility) and
+  1 new server test (resign decision routes to `+R`). All 67 tests across
+  three workspaces pass.
 
 ## 2026-05-06 — Time controls: traditional weiqi main + byo-yomi clocks
 

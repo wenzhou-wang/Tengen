@@ -24,6 +24,11 @@ export interface AiLoopOptions {
   delayMs?: number;
   /** Optional logger; defaults to console.log. */
   log?: (line: string) => void;
+  /**
+   * Override the bot factory. Returning null falls through to the registry.
+   * Used by tests and by future self-play runners that want seeded bots.
+   */
+  botFactory?: (id: string) => AiPlayer | null;
 }
 
 export interface AiMoveLogPayload {
@@ -34,6 +39,7 @@ export interface AiMoveLogPayload {
   decision:
     | { type: "play"; x: number; y: number; coord: string }
     | { type: "pass" }
+    | { type: "resign" }
     | { type: "fallback-pass"; reason: string }
     | { type: "stale"; reason: string };
   durationMs: number;
@@ -61,6 +67,7 @@ export class AiMoveLoop {
   readonly #log: (line: string) => void;
   readonly #running = new Set<string>();
   readonly #botCache = new Map<string, AiPlayer>();
+  readonly #botFactory: ((id: string) => AiPlayer | null) | null;
   #disposed = false;
 
   constructor(service: SessionService, options: AiLoopOptions = {}) {
@@ -71,6 +78,7 @@ export class AiMoveLoop {
       options.defaultMoveTimeoutMs ?? options.moveTimeoutMs ?? DEFAULT_TIMEOUT;
     this.#delayMs = options.delayMs ?? DEFAULT_DELAY;
     this.#log = options.log ?? ((line) => console.log(line));
+    this.#botFactory = options.botFactory ?? null;
   }
 
   /** Kick off an AI move turn for the session if the current player is a bot. */
@@ -95,12 +103,18 @@ export class AiMoveLoop {
   }
 
   #getBot(id: string): AiPlayer | null {
-    if (!isBotId(id)) return null;
     let bot = this.#botCache.get(id);
-    if (!bot) {
-      bot = createBot(id as BotId);
-      this.#botCache.set(id, bot);
+    if (bot) return bot;
+    if (this.#botFactory) {
+      const custom = this.#botFactory(id);
+      if (custom) {
+        this.#botCache.set(id, custom);
+        return custom;
+      }
     }
+    if (!isBotId(id)) return null;
+    bot = createBot(id as BotId);
+    this.#botCache.set(id, bot);
     return bot;
   }
 
@@ -180,6 +194,26 @@ export class AiMoveLoop {
     durationMs: number,
   ): boolean {
     const colorLetter: "B" | "W" = ctx.color === BLACK ? "B" : "W";
+
+    if (decision && typeof decision === "object" && "resign" in decision && decision.resign) {
+      try {
+        const next = this.#service.resign(ctx.sessionId, { actor: "bot" });
+        this.#emit({
+          sessionId: ctx.sessionId,
+          moveNumber: next.game.moveNumber,
+          color: colorLetter,
+          bot: { id: ctx.botId, version: ctx.botVersion },
+          decision: { type: "resign" },
+          durationMs,
+        });
+        return true;
+      } catch (err) {
+        // Resign should never fail unless the game is already over; drop to a
+        // fallback pass so the loop can move on cleanly.
+        this.#fallbackPassByCtx(ctx, err instanceof Error ? err.message : "resign failed");
+        return false;
+      }
+    }
 
     if (!decision || (typeof decision === "object" && "pass" in decision && decision.pass)) {
       try {

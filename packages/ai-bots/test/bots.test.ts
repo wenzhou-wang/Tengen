@@ -11,7 +11,13 @@ import {
   playMoveOnGame,
 } from "@tengen/game-core";
 
-import { createHeuristicBot, createRandomBot, listBotMetadata } from "../src/index.ts";
+import {
+  createBot,
+  createHeuristicBot,
+  createMulberry32,
+  createRandomBot,
+  listBotMetadata,
+} from "../src/index.ts";
 
 function seededRng(seed: number): () => number {
   let s = seed >>> 0;
@@ -118,6 +124,49 @@ describe("registry", () => {
     for (const meta of list) {
       assert.ok(meta.version.length > 0);
       assert.ok(meta.label.length > 0);
+    }
+  });
+
+  it("createBot with the same seed produces the same move sequence", async () => {
+    const playN = async (seed: number, n: number) => {
+      const bot = createBot("random-v1", { seed });
+      let game = createInitialState(9);
+      const moves: Array<{ x: number; y: number } | "pass"> = [];
+      for (let i = 0; i < n; i += 1) {
+        const decision = await bot.getMove(getPublicState(game));
+        if (!decision || ("pass" in decision && decision.pass)) {
+          moves.push("pass");
+          game = passOnGame(game);
+          continue;
+        }
+        if ("x" in decision) {
+          const next = playMoveOnGame(game, decision.x, decision.y);
+          if ("error" in next) {
+            moves.push("pass");
+            game = passOnGame(game);
+          } else {
+            moves.push({ x: decision.x, y: decision.y });
+            game = next;
+          }
+        }
+      }
+      return moves;
+    };
+
+    const a = await playN(1234, 8);
+    const b = await playN(1234, 8);
+    const c = await playN(5678, 8);
+    assert.deepEqual(a, b, "same seed must yield identical move sequence");
+    assert.notDeepEqual(a, c, "different seeds should diverge");
+  });
+});
+
+describe("rng", () => {
+  it("mulberry32 is deterministic for a given seed", () => {
+    const a = createMulberry32(42);
+    const b = createMulberry32(42);
+    for (let i = 0; i < 16; i += 1) {
+      assert.equal(a(), b());
     }
   });
 });

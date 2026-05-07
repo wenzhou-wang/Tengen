@@ -98,7 +98,7 @@ export interface PublicGameState {
   legalMoves: LegalMove[];
 }
 
-export type ControllerMove = { pass: true } | Point | null | undefined;
+export type ControllerMove = { pass: true } | { resign: true } | Point | null | undefined;
 
 export type PlayerController =
   | { type: "human" }

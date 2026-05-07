@@ -290,3 +290,74 @@ describe("stale AI decision protection", () => {
     }
   });
 });
+
+describe("bot resignation", () => {
+  it("routes a {resign:true} controller move into service.resign and ends the game with +R", async () => {
+    const logs: string[] = [];
+    const localHandle = createHttpServer({
+      ai: {
+        delayMs: 0,
+        moveTimeoutMs: 1_000,
+        log: (line) => logs.push(line),
+        // Override the registered "random-v1" bot with a stub that always
+        // resigns. The session-creation path still validates against the
+        // real registry, so we keep the public id stable.
+        botFactory: (id) =>
+          id === "random-v1"
+            ? {
+                id: "random-v1",
+                label: "Random bot",
+                version: "test",
+                kind: "random",
+                inferenceMode: "server",
+                async getMove() {
+                  return { resign: true };
+                },
+              }
+            : null,
+      },
+    });
+    await new Promise<void>((resolve, reject) => {
+      localHandle.server.once("error", reject);
+      localHandle.server.listen(0, "127.0.0.1", () => {
+        localHandle.server.off("error", reject);
+        resolve();
+      });
+    });
+    try {
+      const addr = localHandle.server.address() as AddressInfo;
+      const local = `http://127.0.0.1:${addr.port}`;
+      const created = await fetch(`${local}/sessions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          size: 9,
+          players: {
+            black: { kind: "bot", id: "random-v1" },
+            white: { kind: "human" },
+          },
+        }),
+      });
+      assert.equal(created.status, 201);
+      const session = (await created.json()) as SessionRecord;
+
+      const deadline = Date.now() + 2_000;
+      let final: SessionRecord | undefined;
+      while (Date.now() < deadline) {
+        final = localHandle.service.peek(session.id);
+        if (final?.game.gameOver) break;
+        await new Promise((r) => setTimeout(r, 15));
+      }
+      assert.ok(final?.game.gameOver, "expected game over after bot resign");
+      // Black resigned, so white wins by R.
+      assert.equal(final!.game.result, "W+R");
+
+      const resignLog = logs
+        .map((line) => JSON.parse(line) as { event?: string; decision?: { type?: string } })
+        .find((entry) => entry.event === "ai_move" && entry.decision?.type === "resign");
+      assert.ok(resignLog, "expected an ai_move log with decision.type === 'resign'");
+    } finally {
+      await localHandle.close();
+    }
+  });
+});
