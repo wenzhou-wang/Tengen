@@ -1,0 +1,2890 @@
+{
+  "schemaVersion": 1,
+  "recordId": "d826e5de1a5f9dd5",
+  "rulesPackageVersion": "0.1.0",
+  "generatedAt": "2026-05-08T00:00:00.000Z",
+  "boardSize": 9,
+  "komi": 6.5,
+  "seed": 1934499116,
+  "players": {
+    "B": {
+      "id": "random-v1",
+      "version": "1.0.0",
+      "kind": "random",
+      "seed": 616586440
+    },
+    "W": {
+      "id": "random-v1",
+      "version": "1.0.0",
+      "kind": "random",
+      "seed": 3583922969
+    }
+  },
+  "moves": [
+    {
+      "number": 1,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 4,
+      "coord": "G5",
+      "captures": 0
+    },
+    {
+      "number": 2,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 0,
+      "coord": "F9",
+      "captures": 0
+    },
+    {
+      "number": 3,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 1,
+      "coord": "B8",
+      "captures": 0
+    },
+    {
+      "number": 4,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 6,
+      "coord": "F3",
+      "captures": 0
+    },
+    {
+      "number": 5,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 6,
+      "coord": "G3",
+      "captures": 0
+    },
+    {
+      "number": 6,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 2,
+      "coord": "F7",
+      "captures": 0
+    },
+    {
+      "number": 7,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 5,
+      "coord": "B4",
+      "captures": 0
+    },
+    {
+      "number": 8,
+      "color": "W",
+      "type": "play",
+      "x": 8,
+      "y": 2,
+      "coord": "J7",
+      "captures": 0
+    },
+    {
+      "number": 9,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 3,
+      "coord": "H6",
+      "captures": 0
+    },
+    {
+      "number": 10,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 2,
+      "coord": "D7",
+      "captures": 0
+    },
+    {
+      "number": 11,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 1,
+      "coord": "F8",
+      "captures": 0
+    },
+    {
+      "number": 12,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 5,
+      "coord": "E4",
+      "captures": 0
+    },
+    {
+      "number": 13,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 3,
+      "coord": "B6",
+      "captures": 0
+    },
+    {
+      "number": 14,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 1,
+      "coord": "E8",
+      "captures": 0
+    },
+    {
+      "number": 15,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 8,
+      "coord": "G1",
+      "captures": 0
+    },
+    {
+      "number": 16,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 3,
+      "coord": "A6",
+      "captures": 0
+    },
+    {
+      "number": 17,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 2,
+      "coord": "G7",
+      "captures": 0
+    },
+    {
+      "number": 18,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 8,
+      "coord": "E1",
+      "captures": 0
+    },
+    {
+      "number": 19,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 7,
+      "coord": "G2",
+      "captures": 0
+    },
+    {
+      "number": 20,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 3,
+      "coord": "F6",
+      "captures": 0
+    },
+    {
+      "number": 21,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 8,
+      "coord": "F1",
+      "captures": 0
+    },
+    {
+      "number": 22,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 7,
+      "coord": "C2",
+      "captures": 0
+    },
+    {
+      "number": 23,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 0,
+      "coord": "G9",
+      "captures": 0
+    },
+    {
+      "number": 24,
+      "color": "W",
+      "type": "play",
+      "x": 6,
+      "y": 5,
+      "coord": "G4",
+      "captures": 0
+    },
+    {
+      "number": 25,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 5,
+      "coord": "A4",
+      "captures": 0
+    },
+    {
+      "number": 26,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 1,
+      "coord": "D8",
+      "captures": 0
+    },
+    {
+      "number": 27,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 3,
+      "coord": "J6",
+      "captures": 0
+    },
+    {
+      "number": 28,
+      "color": "W",
+      "type": "play",
+      "x": 7,
+      "y": 8,
+      "coord": "H1",
+      "captures": 0
+    },
+    {
+      "number": 29,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 5,
+      "coord": "J4",
+      "captures": 0
+    },
+    {
+      "number": 30,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 2,
+      "coord": "B7",
+      "captures": 0
+    },
+    {
+      "number": 31,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 4,
+      "coord": "F5",
+      "captures": 0
+    },
+    {
+      "number": 32,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 7,
+      "coord": "E2",
+      "captures": 0
+    },
+    {
+      "number": 33,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 7,
+      "coord": "B2",
+      "captures": 0
+    },
+    {
+      "number": 34,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 3,
+      "coord": "E6",
+      "captures": 0
+    },
+    {
+      "number": 35,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 1,
+      "coord": "G8",
+      "captures": 0
+    },
+    {
+      "number": 36,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 5,
+      "coord": "C4",
+      "captures": 0
+    },
+    {
+      "number": 37,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 0,
+      "coord": "H9",
+      "captures": 0
+    },
+    {
+      "number": 38,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 0,
+      "coord": "B9",
+      "captures": 0
+    },
+    {
+      "number": 39,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 3,
+      "coord": "G6",
+      "captures": 0
+    },
+    {
+      "number": 40,
+      "color": "W",
+      "type": "play",
+      "x": 8,
+      "y": 8,
+      "coord": "J1",
+      "captures": 0
+    },
+    {
+      "number": 41,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 0,
+      "coord": "J9",
+      "captures": 0
+    },
+    {
+      "number": 42,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 2,
+      "coord": "A7",
+      "captures": 0
+    },
+    {
+      "number": 43,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 4,
+      "coord": "D5",
+      "captures": 0
+    },
+    {
+      "number": 44,
+      "color": "W",
+      "type": "play",
+      "x": 8,
+      "y": 1,
+      "coord": "J8",
+      "captures": 0
+    },
+    {
+      "number": 45,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 8,
+      "coord": "D1",
+      "captures": 0
+    },
+    {
+      "number": 46,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 6,
+      "coord": "A3",
+      "captures": 0
+    },
+    {
+      "number": 47,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 2,
+      "coord": "C7",
+      "captures": 0
+    },
+    {
+      "number": 48,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 5,
+      "coord": "D4",
+      "captures": 0
+    },
+    {
+      "number": 49,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 4,
+      "coord": "E5",
+      "captures": 0
+    },
+    {
+      "number": 50,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 7,
+      "coord": "A2",
+      "captures": 0
+    },
+    {
+      "number": 51,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 3,
+      "coord": "D6",
+      "captures": 0
+    },
+    {
+      "number": 52,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 4,
+      "coord": "A5",
+      "captures": 0
+    },
+    {
+      "number": 53,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 3,
+      "coord": "C6",
+      "captures": 0
+    },
+    {
+      "number": 54,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 6,
+      "coord": "B3",
+      "captures": 0
+    },
+    {
+      "number": 55,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 5,
+      "coord": "F4",
+      "captures": 0
+    },
+    {
+      "number": 56,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 4,
+      "coord": "C5",
+      "captures": 0
+    },
+    {
+      "number": 57,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 0,
+      "coord": "E9",
+      "captures": 1
+    },
+    {
+      "number": 58,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 8,
+      "coord": "C1",
+      "captures": 0
+    },
+    {
+      "number": 59,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 6,
+      "coord": "E3",
+      "captures": 0
+    },
+    {
+      "number": 60,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 2,
+      "coord": "E7",
+      "captures": 0
+    },
+    {
+      "number": 61,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 6,
+      "coord": "J3",
+      "captures": 0
+    },
+    {
+      "number": 62,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 8,
+      "coord": "B1",
+      "captures": 1
+    },
+    {
+      "number": 63,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 6,
+      "coord": "H3",
+      "captures": 0
+    },
+    {
+      "number": 64,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 0,
+      "coord": "A9",
+      "captures": 0
+    },
+    {
+      "number": 65,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 4,
+      "coord": "H5",
+      "captures": 0
+    },
+    {
+      "number": 66,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 7,
+      "coord": "B2",
+      "captures": 0
+    },
+    {
+      "number": 67,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 4,
+      "coord": "B5",
+      "captures": 0
+    },
+    {
+      "number": 68,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 6,
+      "coord": "D3",
+      "captures": 1
+    },
+    {
+      "number": 69,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 5,
+      "coord": "H4",
+      "captures": 1
+    },
+    {
+      "number": 70,
+      "color": "W",
+      "type": "play",
+      "x": 7,
+      "y": 7,
+      "coord": "H2",
+      "captures": 0
+    },
+    {
+      "number": 71,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 0,
+      "coord": "F9",
+      "captures": 0
+    },
+    {
+      "number": 72,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 1,
+      "coord": "C8",
+      "captures": 0
+    },
+    {
+      "number": 73,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 7,
+      "coord": "F2",
+      "captures": 0
+    },
+    {
+      "number": 74,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 8,
+      "coord": "A1",
+      "captures": 0
+    },
+    {
+      "number": 75,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 6,
+      "coord": "E3",
+      "captures": 1
+    },
+    {
+      "number": 76,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 0,
+      "coord": "C9",
+      "captures": 0
+    },
+    {
+      "number": 77,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 2,
+      "coord": "H7",
+      "captures": 0
+    },
+    {
+      "number": 78,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 6,
+      "coord": "C3",
+      "captures": 0
+    },
+    {
+      "number": 79,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 7,
+      "coord": "D2",
+      "captures": 16
+    },
+    {
+      "number": 80,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 5,
+      "coord": "C4",
+      "captures": 0
+    },
+    {
+      "number": 81,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 6,
+      "coord": "F3",
+      "captures": 0
+    },
+    {
+      "number": 82,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 6,
+      "coord": "B3",
+      "captures": 0
+    },
+    {
+      "number": 83,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 6,
+      "coord": "C3",
+      "captures": 0
+    },
+    {
+      "number": 84,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 7,
+      "coord": "A2",
+      "captures": 0
+    },
+    {
+      "number": 85,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 7,
+      "coord": "E2",
+      "captures": 0
+    },
+    {
+      "number": 86,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 6,
+      "coord": "A3",
+      "captures": 0
+    },
+    {
+      "number": 87,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 8,
+      "coord": "C1",
+      "captures": 0
+    },
+    {
+      "number": 88,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 8,
+      "coord": "B1",
+      "captures": 0
+    },
+    {
+      "number": 89,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 4,
+      "coord": "J5",
+      "captures": 0
+    },
+    {
+      "number": 90,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 5,
+      "coord": "E4",
+      "captures": 0
+    },
+    {
+      "number": 91,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 1,
+      "coord": "A8",
+      "captures": 4
+    },
+    {
+      "number": 92,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 7,
+      "coord": "B2",
+      "captures": 0
+    },
+    {
+      "number": 93,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 7,
+      "coord": "J2",
+      "captures": 3
+    },
+    {
+      "number": 94,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 2,
+      "coord": "A7",
+      "captures": 0
+    },
+    {
+      "number": 95,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 8,
+      "coord": "H1",
+      "captures": 0
+    },
+    {
+      "number": 96,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 8,
+      "coord": "A1",
+      "captures": 0
+    },
+    {
+      "number": 97,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 8,
+      "coord": "E1",
+      "captures": 0
+    },
+    {
+      "number": 98,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 5,
+      "coord": "D4",
+      "captures": 0
+    },
+    {
+      "number": 99,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 4,
+      "coord": "A5",
+      "captures": 0
+    },
+    {
+      "number": 100,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 4,
+      "coord": "C5",
+      "captures": 0
+    },
+    {
+      "number": 101,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 6,
+      "coord": "D3",
+      "captures": 4
+    },
+    {
+      "number": 102,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 5,
+      "coord": "E4",
+      "captures": 0
+    },
+    {
+      "number": 103,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 8,
+      "coord": "J1",
+      "captures": 0
+    },
+    {
+      "number": 104,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 4,
+      "coord": "C5",
+      "captures": 0
+    },
+    {
+      "number": 105,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 1,
+      "coord": "H8",
+      "captures": 2
+    },
+    {
+      "number": 106,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 3,
+      "coord": "A6",
+      "captures": 0
+    },
+    {
+      "number": 107,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 5,
+      "coord": "D4",
+      "captures": 1
+    },
+    {
+      "number": 108,
+      "color": "W",
+      "type": "play",
+      "x": 8,
+      "y": 1,
+      "coord": "J8",
+      "captures": 0
+    },
+    {
+      "number": 109,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 2,
+      "coord": "B7",
+      "captures": 2
+    },
+    {
+      "number": 110,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 2,
+      "coord": "A7",
+      "captures": 0
+    },
+    {
+      "number": 111,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 3,
+      "coord": "A6",
+      "captures": 1
+    },
+    {
+      "number": 112,
+      "color": "W",
+      "type": "pass"
+    },
+    {
+      "number": 113,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 5,
+      "coord": "G4",
+      "captures": 0
+    },
+    {
+      "number": 114,
+      "color": "W",
+      "type": "pass"
+    },
+    {
+      "number": 115,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 2,
+      "coord": "J7",
+      "captures": 1
+    },
+    {
+      "number": 116,
+      "color": "W",
+      "type": "pass"
+    },
+    {
+      "number": 117,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 1,
+      "coord": "J8",
+      "captures": 0
+    },
+    {
+      "number": 118,
+      "color": "W",
+      "type": "pass"
+    },
+    {
+      "number": 119,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 7,
+      "coord": "H2",
+      "captures": 0
+    },
+    {
+      "number": 120,
+      "color": "W",
+      "type": "pass"
+    },
+    {
+      "number": 121,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 7,
+      "coord": "C2",
+      "captures": 6
+    },
+    {
+      "number": 122,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 8,
+      "coord": "B1",
+      "captures": 0
+    },
+    {
+      "number": 123,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 6,
+      "coord": "B3",
+      "captures": 0
+    },
+    {
+      "number": 124,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 7,
+      "coord": "A2",
+      "captures": 0
+    },
+    {
+      "number": 125,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 5,
+      "coord": "E4",
+      "captures": 0
+    },
+    {
+      "number": 126,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 6,
+      "coord": "A3",
+      "captures": 0
+    },
+    {
+      "number": 127,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 7,
+      "coord": "B2",
+      "captures": 0
+    },
+    {
+      "number": 128,
+      "color": "W",
+      "type": "pass"
+    },
+    {
+      "number": 129,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 0,
+      "coord": "D9",
+      "captures": 11
+    },
+    {
+      "number": 130,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 0,
+      "coord": "A9",
+      "captures": 0
+    },
+    {
+      "number": 131,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 2,
+      "coord": "E7",
+      "captures": 0
+    },
+    {
+      "number": 132,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 3,
+      "coord": "F6",
+      "captures": 0
+    },
+    {
+      "number": 133,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 5,
+      "coord": "C4",
+      "captures": 1
+    },
+    {
+      "number": 134,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 2,
+      "coord": "F7",
+      "captures": 0
+    },
+    {
+      "number": 135,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 2,
+      "coord": "A7",
+      "captures": 0
+    },
+    {
+      "number": 136,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 1,
+      "coord": "E8",
+      "captures": 0
+    },
+    {
+      "number": 137,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 4,
+      "coord": "C5",
+      "captures": 0
+    },
+    {
+      "number": 138,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 2,
+      "coord": "D7",
+      "captures": 0
+    },
+    {
+      "number": 139,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 3,
+      "coord": "E6",
+      "captures": 2
+    },
+    {
+      "number": 140,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 1,
+      "coord": "C8",
+      "captures": 0
+    },
+    {
+      "number": 141,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 2,
+      "coord": "F7",
+      "captures": 0
+    },
+    {
+      "number": 142,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 0,
+      "coord": "B9",
+      "captures": 0
+    },
+    {
+      "number": 143,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 0,
+      "coord": "C9",
+      "captures": 2
+    },
+    {
+      "number": 144,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 0,
+      "coord": "A9",
+      "captures": 0
+    },
+    {
+      "number": 145,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 1,
+      "coord": "D8",
+      "captures": 3
+    },
+    {
+      "number": 146,
+      "color": "W",
+      "type": "pass"
+    },
+    {
+      "number": 147,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 1,
+      "coord": "E8",
+      "captures": 0
+    },
+    {
+      "number": 148,
+      "color": "W",
+      "type": "pass"
+    },
+    {
+      "number": 149,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 2,
+      "coord": "D7",
+      "captures": 0
+    },
+    {
+      "number": 150,
+      "color": "W",
+      "type": "pass"
+    },
+    {
+      "number": 151,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 1,
+      "coord": "C8",
+      "captures": 0
+    },
+    {
+      "number": 152,
+      "color": "W",
+      "type": "pass"
+    },
+    {
+      "number": 153,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 0,
+      "coord": "B9",
+      "captures": 1
+    },
+    {
+      "number": 154,
+      "color": "W",
+      "type": "pass"
+    },
+    {
+      "number": 155,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 0,
+      "coord": "A9",
+      "captures": 0
+    },
+    {
+      "number": 156,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 3,
+      "coord": "F6",
+      "captures": 76
+    },
+    {
+      "number": 157,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 6,
+      "coord": "D3",
+      "captures": 0
+    },
+    {
+      "number": 158,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 5,
+      "coord": "E4",
+      "captures": 0
+    },
+    {
+      "number": 159,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 5,
+      "coord": "G4",
+      "captures": 0
+    },
+    {
+      "number": 160,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 4,
+      "coord": "A5",
+      "captures": 0
+    },
+    {
+      "number": 161,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 8,
+      "coord": "G1",
+      "captures": 0
+    },
+    {
+      "number": 162,
+      "color": "W",
+      "type": "play",
+      "x": 6,
+      "y": 3,
+      "coord": "G6",
+      "captures": 0
+    },
+    {
+      "number": 163,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 1,
+      "coord": "J8",
+      "captures": 0
+    },
+    {
+      "number": 164,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 2,
+      "coord": "E7",
+      "captures": 0
+    },
+    {
+      "number": 165,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 0,
+      "coord": "J9",
+      "captures": 0
+    },
+    {
+      "number": 166,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 0,
+      "coord": "C9",
+      "captures": 0
+    },
+    {
+      "number": 167,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 6,
+      "coord": "E3",
+      "captures": 0
+    },
+    {
+      "number": 168,
+      "color": "W",
+      "type": "play",
+      "x": 7,
+      "y": 7,
+      "coord": "H2",
+      "captures": 0
+    },
+    {
+      "number": 169,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 5,
+      "coord": "C4",
+      "captures": 0
+    },
+    {
+      "number": 170,
+      "color": "W",
+      "type": "play",
+      "x": 7,
+      "y": 0,
+      "coord": "H9",
+      "captures": 0
+    },
+    {
+      "number": 171,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 6,
+      "coord": "B3",
+      "captures": 0
+    },
+    {
+      "number": 172,
+      "color": "W",
+      "type": "play",
+      "x": 7,
+      "y": 3,
+      "coord": "H6",
+      "captures": 0
+    },
+    {
+      "number": 173,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 2,
+      "coord": "B7",
+      "captures": 0
+    },
+    {
+      "number": 174,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 7,
+      "coord": "D2",
+      "captures": 0
+    },
+    {
+      "number": 175,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 8,
+      "coord": "D1",
+      "captures": 0
+    },
+    {
+      "number": 176,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 3,
+      "coord": "C6",
+      "captures": 0
+    },
+    {
+      "number": 177,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 6,
+      "coord": "F3",
+      "captures": 0
+    },
+    {
+      "number": 178,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 0,
+      "coord": "F9",
+      "captures": 0
+    },
+    {
+      "number": 179,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 1,
+      "coord": "H8",
+      "captures": 0
+    },
+    {
+      "number": 180,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 8,
+      "coord": "F1",
+      "captures": 0
+    },
+    {
+      "number": 181,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 3,
+      "coord": "J6",
+      "captures": 0
+    },
+    {
+      "number": 182,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 5,
+      "coord": "A4",
+      "captures": 0
+    },
+    {
+      "number": 183,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 4,
+      "coord": "B5",
+      "captures": 0
+    },
+    {
+      "number": 184,
+      "color": "W",
+      "type": "play",
+      "x": 6,
+      "y": 7,
+      "coord": "G2",
+      "captures": 0
+    },
+    {
+      "number": 185,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 7,
+      "coord": "E2",
+      "captures": 0
+    },
+    {
+      "number": 186,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 8,
+      "coord": "E1",
+      "captures": 0
+    },
+    {
+      "number": 187,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 0,
+      "coord": "B9",
+      "captures": 0
+    },
+    {
+      "number": 188,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 7,
+      "coord": "C2",
+      "captures": 0
+    },
+    {
+      "number": 189,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 0,
+      "coord": "A9",
+      "captures": 0
+    },
+    {
+      "number": 190,
+      "color": "W",
+      "type": "play",
+      "x": 8,
+      "y": 4,
+      "coord": "J5",
+      "captures": 0
+    },
+    {
+      "number": 191,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 5,
+      "coord": "B4",
+      "captures": 0
+    },
+    {
+      "number": 192,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 2,
+      "coord": "F7",
+      "captures": 0
+    },
+    {
+      "number": 193,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 5,
+      "coord": "J4",
+      "captures": 0
+    },
+    {
+      "number": 194,
+      "color": "W",
+      "type": "play",
+      "x": 6,
+      "y": 6,
+      "coord": "G3",
+      "captures": 0
+    },
+    {
+      "number": 195,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 6,
+      "coord": "H3",
+      "captures": 0
+    },
+    {
+      "number": 196,
+      "color": "W",
+      "type": "play",
+      "x": 7,
+      "y": 2,
+      "coord": "H7",
+      "captures": 0
+    },
+    {
+      "number": 197,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 5,
+      "coord": "D4",
+      "captures": 0
+    },
+    {
+      "number": 198,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 1,
+      "coord": "C8",
+      "captures": 0
+    },
+    {
+      "number": 199,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 3,
+      "coord": "D6",
+      "captures": 0
+    },
+    {
+      "number": 200,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 4,
+      "coord": "E5",
+      "captures": 0
+    },
+    {
+      "number": 201,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 2,
+      "coord": "A7",
+      "captures": 0
+    },
+    {
+      "number": 202,
+      "color": "W",
+      "type": "play",
+      "x": 8,
+      "y": 2,
+      "coord": "J7",
+      "captures": 1
+    },
+    {
+      "number": 203,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 4,
+      "coord": "H5",
+      "captures": 0
+    },
+    {
+      "number": 204,
+      "color": "W",
+      "type": "play",
+      "x": 8,
+      "y": 3,
+      "coord": "J6",
+      "captures": 0
+    },
+    {
+      "number": 205,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 6,
+      "coord": "J3",
+      "captures": 0
+    },
+    {
+      "number": 206,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 5,
+      "coord": "F4",
+      "captures": 0
+    },
+    {
+      "number": 207,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 7,
+      "coord": "J2",
+      "captures": 0
+    },
+    {
+      "number": 208,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 1,
+      "coord": "E8",
+      "captures": 0
+    },
+    {
+      "number": 209,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 0,
+      "coord": "G9",
+      "captures": 1
+    },
+    {
+      "number": 210,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 1,
+      "coord": "B8",
+      "captures": 0
+    },
+    {
+      "number": 211,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 3,
+      "coord": "A6",
+      "captures": 0
+    },
+    {
+      "number": 212,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 4,
+      "coord": "C5",
+      "captures": 0
+    },
+    {
+      "number": 213,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 7,
+      "coord": "F2",
+      "captures": 2
+    },
+    {
+      "number": 214,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 8,
+      "coord": "A1",
+      "captures": 0
+    },
+    {
+      "number": 215,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 6,
+      "coord": "C3",
+      "captures": 0
+    },
+    {
+      "number": 216,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 2,
+      "coord": "D7",
+      "captures": 0
+    },
+    {
+      "number": 217,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 7,
+      "coord": "B2",
+      "captures": 0
+    },
+    {
+      "number": 218,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 1,
+      "coord": "D8",
+      "captures": 0
+    },
+    {
+      "number": 219,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 4,
+      "coord": "F5",
+      "captures": 0
+    },
+    {
+      "number": 220,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 3,
+      "coord": "B6",
+      "captures": 0
+    },
+    {
+      "number": 221,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 2,
+      "coord": "C7",
+      "captures": 0
+    },
+    {
+      "number": 222,
+      "color": "W",
+      "type": "play",
+      "x": 7,
+      "y": 8,
+      "coord": "H1",
+      "captures": 0
+    },
+    {
+      "number": 223,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 8,
+      "coord": "C1",
+      "captures": 8
+    },
+    {
+      "number": 224,
+      "color": "W",
+      "type": "play",
+      "x": 6,
+      "y": 2,
+      "coord": "G7",
+      "captures": 0
+    },
+    {
+      "number": 225,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 4,
+      "coord": "A5",
+      "captures": 0
+    },
+    {
+      "number": 226,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 1,
+      "coord": "F8",
+      "captures": 0
+    },
+    {
+      "number": 227,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 7,
+      "coord": "C2",
+      "captures": 0
+    },
+    {
+      "number": 228,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 8,
+      "coord": "A1",
+      "captures": 0
+    },
+    {
+      "number": 229,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 0,
+      "coord": "D9",
+      "captures": 0
+    },
+    {
+      "number": 230,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 7,
+      "coord": "A2",
+      "captures": 0
+    },
+    {
+      "number": 231,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 4,
+      "coord": "G5",
+      "captures": 0
+    },
+    {
+      "number": 232,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 8,
+      "coord": "E1",
+      "captures": 0
+    },
+    {
+      "number": 233,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 8,
+      "coord": "B1",
+      "captures": 0
+    },
+    {
+      "number": 234,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 3,
+      "coord": "E6",
+      "captures": 0
+    },
+    {
+      "number": 235,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 5,
+      "coord": "H4",
+      "captures": 0
+    },
+    {
+      "number": 236,
+      "color": "W",
+      "type": "play",
+      "x": 6,
+      "y": 1,
+      "coord": "G8",
+      "captures": 0
+    },
+    {
+      "number": 237,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 5,
+      "coord": "A4",
+      "captures": 0
+    },
+    {
+      "number": 238,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 0,
+      "coord": "E9",
+      "captures": 1
+    },
+    {
+      "number": 239,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 1,
+      "coord": "A8",
+      "captures": 0
+    },
+    {
+      "number": 240,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 0,
+      "coord": "D9",
+      "captures": 0
+    },
+    {
+      "number": 241,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 6,
+      "coord": "A3",
+      "captures": 2
+    },
+    {
+      "number": 242,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 8,
+      "coord": "F1",
+      "captures": 1
+    },
+    {
+      "number": 243,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 7,
+      "coord": "A2",
+      "captures": 0
+    },
+    {
+      "number": 244,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 4,
+      "coord": "D5",
+      "captures": 1
+    },
+    {
+      "number": 245,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 3,
+      "coord": "D6",
+      "captures": 29
+    },
+    {
+      "number": 246,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 4,
+      "coord": "D5",
+      "captures": 0
+    },
+    {
+      "number": 247,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 4,
+      "coord": "C5",
+      "captures": 0
+    },
+    {
+      "number": 248,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 3,
+      "coord": "F6",
+      "captures": 0
+    },
+    {
+      "number": 249,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 1,
+      "coord": "F8",
+      "captures": 0
+    },
+    {
+      "number": 250,
+      "color": "W",
+      "type": "play",
+      "x": 7,
+      "y": 2,
+      "coord": "H7",
+      "captures": 0
+    },
+    {
+      "number": 251,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 2,
+      "coord": "J7",
+      "captures": 0
+    },
+    {
+      "number": 252,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 1,
+      "coord": "B8",
+      "captures": 0
+    },
+    {
+      "number": 253,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 0,
+      "coord": "F9",
+      "captures": 0
+    },
+    {
+      "number": 254,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 1,
+      "coord": "E8",
+      "captures": 0
+    },
+    {
+      "number": 255,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 1,
+      "coord": "G8",
+      "captures": 0
+    },
+    {
+      "number": 256,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 2,
+      "coord": "F7",
+      "captures": 0
+    },
+    {
+      "number": 257,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 0,
+      "coord": "E9",
+      "captures": 0
+    },
+    {
+      "number": 258,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 1,
+      "coord": "D8",
+      "captures": 0
+    },
+    {
+      "number": 259,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 3,
+      "coord": "H6",
+      "captures": 0
+    },
+    {
+      "number": 260,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 5,
+      "coord": "F4",
+      "captures": 0
+    },
+    {
+      "number": 261,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 4,
+      "coord": "E5",
+      "captures": 1
+    },
+    {
+      "number": 262,
+      "color": "W",
+      "type": "play",
+      "x": 8,
+      "y": 3,
+      "coord": "J6",
+      "captures": 0
+    },
+    {
+      "number": 263,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 8,
+      "coord": "G1",
+      "captures": 2
+    },
+    {
+      "number": 264,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 3,
+      "coord": "E6",
+      "captures": 0
+    },
+    {
+      "number": 265,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 5,
+      "coord": "E4",
+      "captures": 1
+    },
+    {
+      "number": 266,
+      "color": "W",
+      "type": "play",
+      "x": 6,
+      "y": 3,
+      "coord": "G6",
+      "captures": 0
+    },
+    {
+      "number": 267,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 2,
+      "coord": "E7",
+      "captures": 0
+    },
+    {
+      "number": 268,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 2,
+      "coord": "D7",
+      "captures": 1
+    },
+    {
+      "number": 269,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 8,
+      "coord": "E1",
+      "captures": 0
+    },
+    {
+      "number": 270,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 1,
+      "coord": "C8",
+      "captures": 0
+    },
+    {
+      "number": 271,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 8,
+      "coord": "F1",
+      "captures": 0
+    },
+    {
+      "number": 272,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 2,
+      "coord": "E7",
+      "captures": 0
+    },
+    {
+      "number": 273,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 0,
+      "coord": "H9",
+      "captures": 0
+    },
+    {
+      "number": 274,
+      "color": "W",
+      "type": "play",
+      "x": 3,
+      "y": 0,
+      "coord": "D9",
+      "captures": 0
+    },
+    {
+      "number": 275,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 4,
+      "coord": "J5",
+      "captures": 1
+    },
+    {
+      "number": 276,
+      "color": "W",
+      "type": "play",
+      "x": 6,
+      "y": 2,
+      "coord": "G7",
+      "captures": 0
+    },
+    {
+      "number": 277,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 7,
+      "coord": "D2",
+      "captures": 0
+    },
+    {
+      "number": 278,
+      "color": "W",
+      "type": "play",
+      "x": 8,
+      "y": 3,
+      "coord": "J6",
+      "captures": 10
+    },
+    {
+      "number": 279,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 0,
+      "coord": "H9",
+      "captures": 0
+    },
+    {
+      "number": 280,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 3,
+      "coord": "C6",
+      "captures": 0
+    },
+    {
+      "number": 281,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 1,
+      "coord": "G8",
+      "captures": 0
+    },
+    {
+      "number": 282,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 0,
+      "coord": "E9",
+      "captures": 0
+    },
+    {
+      "number": 283,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 1,
+      "coord": "H8",
+      "captures": 0
+    },
+    {
+      "number": 284,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 0,
+      "coord": "F9",
+      "captures": 0
+    },
+    {
+      "number": 285,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 3,
+      "coord": "B6",
+      "captures": 1
+    },
+    {
+      "number": 286,
+      "color": "W",
+      "type": "play",
+      "x": 8,
+      "y": 0,
+      "coord": "J9",
+      "captures": 0
+    },
+    {
+      "number": 287,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 1,
+      "coord": "J8",
+      "captures": 1
+    },
+    {
+      "number": 288,
+      "color": "W",
+      "type": "play",
+      "x": 8,
+      "y": 2,
+      "coord": "J7",
+      "captures": 0
+    },
+    {
+      "number": 289,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 0,
+      "coord": "G9",
+      "captures": 0
+    },
+    {
+      "number": 290,
+      "color": "W",
+      "type": "play",
+      "x": 2,
+      "y": 0,
+      "coord": "C9",
+      "captures": 0
+    },
+    {
+      "number": 291,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 4,
+      "coord": "D5",
+      "captures": 0
+    },
+    {
+      "number": 292,
+      "color": "W",
+      "type": "pass"
+    },
+    {
+      "number": 293,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 8,
+      "coord": "A1",
+      "captures": 0
+    },
+    {
+      "number": 294,
+      "color": "W",
+      "type": "pass"
+    },
+    {
+      "number": 295,
+      "color": "B",
+      "type": "play",
+      "x": 5,
+      "y": 5,
+      "coord": "F4",
+      "captures": 0
+    },
+    {
+      "number": 296,
+      "color": "W",
+      "type": "pass"
+    },
+    {
+      "number": 297,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 3,
+      "coord": "C6",
+      "captures": 0
+    },
+    {
+      "number": 298,
+      "color": "W",
+      "type": "play",
+      "x": 8,
+      "y": 8,
+      "coord": "J1",
+      "captures": 51
+    },
+    {
+      "number": 299,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 0,
+      "coord": "J9",
+      "captures": 0
+    },
+    {
+      "number": 300,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 0,
+      "coord": "A9",
+      "captures": 0
+    },
+    {
+      "number": 301,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 5,
+      "coord": "B4",
+      "captures": 0
+    },
+    {
+      "number": 302,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 0,
+      "coord": "B9",
+      "captures": 0
+    },
+    {
+      "number": 303,
+      "color": "B",
+      "type": "play",
+      "x": 8,
+      "y": 4,
+      "coord": "J5",
+      "captures": 0
+    },
+    {
+      "number": 304,
+      "color": "W",
+      "type": "play",
+      "x": 6,
+      "y": 8,
+      "coord": "G1",
+      "captures": 0
+    },
+    {
+      "number": 305,
+      "color": "B",
+      "type": "play",
+      "x": 4,
+      "y": 4,
+      "coord": "E5",
+      "captures": 0
+    },
+    {
+      "number": 306,
+      "color": "W",
+      "type": "play",
+      "x": 7,
+      "y": 4,
+      "coord": "H5",
+      "captures": 0
+    },
+    {
+      "number": 307,
+      "color": "B",
+      "type": "play",
+      "x": 1,
+      "y": 2,
+      "coord": "B7",
+      "captures": 0
+    },
+    {
+      "number": 308,
+      "color": "W",
+      "type": "play",
+      "x": 1,
+      "y": 3,
+      "coord": "B6",
+      "captures": 0
+    },
+    {
+      "number": 309,
+      "color": "B",
+      "type": "play",
+      "x": 6,
+      "y": 5,
+      "coord": "G4",
+      "captures": 0
+    },
+    {
+      "number": 310,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 1,
+      "coord": "A8",
+      "captures": 0
+    },
+    {
+      "number": 311,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 4,
+      "coord": "D5",
+      "captures": 0
+    },
+    {
+      "number": 312,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 5,
+      "coord": "F4",
+      "captures": 0
+    },
+    {
+      "number": 313,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 8,
+      "coord": "A1",
+      "captures": 0
+    },
+    {
+      "number": 314,
+      "color": "W",
+      "type": "play",
+      "x": 5,
+      "y": 4,
+      "coord": "F5",
+      "captures": 0
+    },
+    {
+      "number": 315,
+      "color": "B",
+      "type": "play",
+      "x": 7,
+      "y": 5,
+      "coord": "H4",
+      "captures": 0
+    },
+    {
+      "number": 316,
+      "color": "W",
+      "type": "play",
+      "x": 4,
+      "y": 8,
+      "coord": "E1",
+      "captures": 0
+    },
+    {
+      "number": 317,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 4,
+      "coord": "C5",
+      "captures": 0
+    },
+    {
+      "number": 318,
+      "color": "W",
+      "type": "play",
+      "x": 8,
+      "y": 7,
+      "coord": "J2",
+      "captures": 0
+    },
+    {
+      "number": 319,
+      "color": "B",
+      "type": "play",
+      "x": 3,
+      "y": 8,
+      "coord": "D1",
+      "captures": 0
+    },
+    {
+      "number": 320,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 2,
+      "coord": "A7",
+      "captures": 0
+    },
+    {
+      "number": 321,
+      "color": "B",
+      "type": "play",
+      "x": 2,
+      "y": 8,
+      "coord": "C1",
+      "captures": 0
+    },
+    {
+      "number": 322,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 7,
+      "coord": "A2",
+      "captures": 0
+    },
+    {
+      "number": 323,
+      "color": "B",
+      "type": "play",
+      "x": 0,
+      "y": 6,
+      "coord": "A3",
+      "captures": 0
+    },
+    {
+      "number": 324,
+      "color": "W",
+      "type": "play",
+      "x": 0,
+      "y": 4,
+      "coord": "A5",
+      "captures": 0
+    }
+  ],
+  "result": "",
+  "winner": null,
+  "finalBoard": "222222111/222220111/210222222/020022202/201112021/010002110/100000200/200000222/101120222",
+  "terminal": false,
+  "endReason": "max-moves"
+}

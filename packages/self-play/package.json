@@ -1,0 +1,38 @@
+{
+  "name": "@tengen/self-play",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Batch AI-vs-AI self-play, training-record schema, replay tooling, and dataset validation for Tengen.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "bin": {
+    "tengen-selfplay": "./src/cli/selfplay.ts",
+    "tengen-replay": "./src/cli/replay.ts",
+    "tengen-validate": "./src/cli/validate.ts"
+  },
+  "scripts": {
+    "test": "node --test --experimental-transform-types --no-warnings test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "selfplay": "node --experimental-transform-types --no-warnings src/cli/selfplay.ts",
+    "replay": "node --experimental-transform-types --no-warnings src/cli/replay.ts",
+    "validate": "node --experimental-transform-types --no-warnings src/cli/validate.ts"
+  },
+  "dependencies": {
+    "@tengen/ai-bots": "*",
+    "@tengen/game-core": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

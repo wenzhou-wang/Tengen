@@ -4,8 +4,84 @@ Append-only log of milestone progress against `docs/AI_ROADMAP.md`. Newest
 entries go at the top. See `CLAUDE.md` for the entry format and the rules for
 when to add an entry.
 
-Current milestone: **M3 — Baseline AI Opponents** complete; **M4 — Self-Play
-and Data Pipeline** prep work shipped, runner not yet started.
+Current milestone: **M4 — Self-Play and Data Pipeline** complete; ready to
+begin **M5 — First Trainable Model**.
+
+## 2026-05-08 — M4 Self-play and data pipeline shipped
+
+Milestone: M4 — Self-Play and Data Pipeline
+Status: milestone complete
+
+- New `@tengen/self-play` workspace package providing the batch self-play
+  runner, training-record schema, replayer, dataset validator, curated
+  evaluation fixtures, and three CLI entrypoints (`tengen-selfplay`,
+  `tengen-replay`, `tengen-validate`). Built on `@tengen/game-core` +
+  `@tengen/ai-bots`; zero runtime dependencies.
+- `playMatch({ boardSize, black, white, seed })` drives one full AI-vs-AI
+  game through the shared engine and returns a `TrainingRecord` plus SGF.
+  Per-player seeds are derived from the master seed via splitmix32 so
+  identical inputs produce byte-identical records.
+- `runBatch({ outputDir, baseSeed, boardSizes, pairings, matchesPerCell })`
+  iterates the cell grid, writes one JSON record + one SGF per match, and
+  emits a `manifest.json` stamping the dataset's `(schemaVersion,
+  rulesPackageVersion, generatedAt, baseSeed, boardSizes, pairings, bots,
+  matchCount, records)`. Re-running with the same `baseSeed` reproduces
+  the dataset exactly.
+- `replayRecord(record)` reconstructs the game from stored moves through
+  `@tengen/game-core` and verifies legality of every move, the recorded
+  result, the terminal flag, the winner, and the final board. Tampered
+  records (move colors, finalBoard) are rejected.
+- `iterateTrainingExamples(record)` yields `(position, move, value)`
+  tuples — value is `+1/-1/0` from the side-to-move's perspective — so
+  trainers consume the compact on-disk format directly without a separate
+  expansion pass.
+- `validateDataset(dir)` walks a directory, replays every record, dedupes
+  by `recordId` and final-board fingerprint, and reports structured
+  issues (`unreadable`, `invalid-json`, `schema-mismatch`, `shape`,
+  `illegal-replay`, `non-terminal`, `duplicate-record-id`,
+  `duplicate-position-history`). Powers the `tengen-validate` CLI which
+  exits non-zero on any failure.
+- `packages/self-play/fixtures/` holds 4 committed evaluation games (9x9
+  random/random, random/heuristic, heuristic/random, heuristic/heuristic;
+  baseSeed 2026, fixed `generatedAt`) reusable from tests and downstream
+  comparisons. Regenerate with `packages/self-play/scripts/generate-fixtures.ts`.
+- 24 new tests across 6 suites: match shape and seed derivation,
+  reproducibility (identical inputs → identical records, different bots
+  → different recordIds), replay (clean replay + tamper detection +
+  example iteration), runner (file layout + manifest fields + byte-equal
+  reruns + every record replays), validator (clean + each failure mode),
+  fixtures (committed set replays cleanly). All 91 tests across the four
+  workspaces pass; all five workspaces typecheck clean.
+- A new `GAME_CORE_VERSION` constant is exported from `@tengen/game-core`
+  (currently `"0.1.0"`) so records and manifests can stamp the rules
+  version without runtime package.json access.
+
+Acceptance criteria affected:
+
+- **M4: Self-play can generate reproducible games from a known bot
+  version and seed** — met (`reproducibility.test.ts`,
+  `runner.test.ts: re-running with the same baseSeed produces
+  byte-identical records`).
+- **M4: Stored records can be replayed through the shared game core
+  without illegal states** — met (`replay.test.ts`,
+  `runner.test.ts: every record written by runBatch replays cleanly`,
+  `fixtures.test.ts`).
+- **M4: Data exports are versioned by rules package, bot/model version,
+  board size, and generation date** — met (`BatchManifest` carries
+  `rulesPackageVersion`, per-pairing `{black, white}` botIds with
+  versions, `boardSizes`, `generatedAt`;
+  `runner.test.ts: manifest stamps rules version, bot versions, board
+  sizes, and date`).
+
+Follow-ups / known gaps:
+
+- The schema reserves space for stronger bots / model players via
+  `PlayerIdentity.kind`; only `random` / `heuristic` are exercised
+  today. M5 will register `model` players against the same schema
+  without a breaking change.
+- Manifest is per-batch; cross-batch dataset roll-ups (e.g. "all 9x9
+  records across all batches") are deferred until the trainer needs
+  them.
 
 ## 2026-05-06 — M3 close-out: bot seed plumbing and bot resignation path
 

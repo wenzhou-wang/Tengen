@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "rulesPackageVersion": "0.1.0",
+  "generatedAt": "2026-05-08T00:00:00.000Z",
+  "baseSeed": 2026,
+  "boardSizes": [
+    9
+  ],
+  "pairings": [
+    {
+      "black": "random-v1",
+      "white": "random-v1"
+    },
+    {
+      "black": "random-v1",
+      "white": "heuristic-v1"
+    },
+    {
+      "black": "heuristic-v1",
+      "white": "random-v1"
+    },
+    {
+      "black": "heuristic-v1",
+      "white": "heuristic-v1"
+    }
+  ],
+  "bots": [
+    {
+      "id": "random-v1",
+      "version": "1.0.0",
+      "kind": "random"
+    },
+    {
+      "id": "heuristic-v1",
+      "version": "1.0.0",
+      "kind": "heuristic"
+    }
+  ],
+  "matchCount": 4,
+  "records": [
+    "9-random-v1-vs-random-v1-d826e5de1a5f9dd5.json",
+    "9-random-v1-vs-heuristic-v1-452c835c865ff706.json",
+    "9-heuristic-v1-vs-random-v1-850dcfcf513246ae.json",
+    "9-heuristic-v1-vs-heuristic-v1-0f551c731f4d449f.json"
+  ]
+}
